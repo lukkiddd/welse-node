@@ -19,19 +19,18 @@ function printResultFor(op) {
  }
 
 
-router.get('/device/:id', function(req, res) {
-  var windSpeed = 10 + (Math.random() * 4);
-  var data = JSON.stringify({ deviceId: 'myFirstNodeDevice', windSpeed: windSpeed });
-  var message = new Message(data);
-  console.log("Sending message: " + message.getData());
-  client.sendEvent(message, printResultFor('send'));
-  return res.send("abc");
-})
 
-router.post('/device', function(req, res) {
-    var data = JSON.stringify( req.body );
-    var message = new Message(data);
-    client.sendEvent(message, printResultFor('send'));
-    return res.json(req.body);
-});
+router.route('/device')
+    .post(function(req, res) {
+        console.log('post');
+        var data = JSON.stringify( req.body );
+        var message = new Message(data);
+        client.sendEvent(message, printResultFor('send'));
+
+        return res.json(req.body);
+    })
+    .get(function(req,res) {
+        console.log('get');
+        return res.json({'data': 'data'})
+    })
 
