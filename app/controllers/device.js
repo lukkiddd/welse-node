@@ -32,6 +32,6 @@ router.post('/device', function(req, res) {
     var data = JSON.stringify( req.body );
     var message = new Message(data);
     client.sendEvent(message, printResultFor('send'));
-    res.json(req.body);
+    return res.json(req.body);
 });
 
