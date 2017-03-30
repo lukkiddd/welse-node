@@ -3,8 +3,9 @@ var express = require('express'),
   clientFromConnectionString = require('azure-iot-device-mqtt').clientFromConnectionString,
   Message = require('azure-iot-device').Message;
 
+
 module.exports = function (app) {
-  app.use('/', router);
+  app.use('/api', router);
 };
 
 var connectionString = 'HostName=welse-hub.azure-devices.net;DeviceId=myFirstNodeDevice;SharedAccessKey=cD5l87zRC5+JV0JDQ4znJqqOqZiCuBKiFb6nWEdx0bU=';
@@ -18,12 +19,18 @@ function printResultFor(op) {
  }
 
 
-router.get('/device', function(req, res) {
+router.get('/device/:id', function(req, res) {
   var windSpeed = 10 + (Math.random() * 4);
   var data = JSON.stringify({ deviceId: 'myFirstNodeDevice', windSpeed: windSpeed });
   var message = new Message(data);
   console.log("Sending message: " + message.getData());
   client.sendEvent(message, printResultFor('send'));
-  return res.send(message);
+  return res.send("abc");
 })
+
+router.post('/device', function(req, res) {
+    var data = JSON.stringify( req.body );
+    var message = new Message(data);
+    client.sendEvent(message, printResultFor('send'));
+});
 

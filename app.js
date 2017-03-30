@@ -3,9 +3,12 @@
 var express = require('express'),
   config = require('./config/config'),
   clientFromConnectionString = require('azure-iot-device-mqtt').clientFromConnectionString,
-  Message = require('azure-iot-device').Message;
+  Message = require('azure-iot-device').Message,
+  bodyParser = require('body-parser');
 
 var app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 module.exports = require('./config/express')(app, config);
 
@@ -19,7 +22,7 @@ var connectCallback = function (err) {
      console.log('Client connected');
    }
  };
- 
+
 app.listen(config.port, function () {
   console.log('Express server listening on port ' + config.port);
   client.open(connectCallback);
