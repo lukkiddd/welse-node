@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <title>WELSE - INDEX</title>
+  <link rel="stylesheet" href="css/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Vendors-->
+  <script src="app/js/angular.min.js"></script>
+  <script src="app/js/angular-ui-router.js"></script>
+  <script src="app/js/angular-cookies.min.js"></script>
+  <script src="app/js/lodash.min.js"></script>
+  <script src="app/js/moment-with-locales.js"></script>
+  <script src="app/js/highcharts.src.js"></script>
+  <script src="app/js/highcharts-ng.js"></script>
+  <script src="app/js/leaflet.js"></script>
+  <script src="app/js/html2canvas.js"></script>
+  <script src="app/js/pdfmake.min.js"></script>
+
+  <!-- Firebase -->
+  <script src="app/js/firebase.js"></script>
+  <script src="app/js/angularfire.min.js"></script>
+
+  <!-- App -->
+  <script src="app/app.module.js"></script>
+  <script src="app/app.run.js"></script>
+  <script src="app/app.config.js"></script>
+  <script src="app/controllers/signup.controller.js"></script>
+  <script src="app/controllers/login.controller.js"></script>
+  <script src="app/controllers/dashboardUser.controller.js"></script>
+  <script src="app/controllers/dashboardStaff.controller.js"></script>
+  <script src="app/controllers/dashboardDoctor.controller.js"></script>
+  <script src="app/controllers/mainPage.controller.js"></script>
+  <script src="app/components/focus.directive/focus.directive.js"></script>
+
+  <script src="app/services/Users.service.js"></script>
+  <script src="app/services/Data.service.js"></script>
+  <script src="app/services/PatientControl.service.js"></script>
+  <script src="app/services/WebSocket.service.js"></script>
+
+  <script src="app/js/angular-websocket.min.js"></script>
+  <script src="app/js/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+</head>
+<body class="bg-snow" ng-controller="mainPageCtrl as vm">
+  <div ng-hide="ready" class="animated fadeIn" style="position: fixed; height: 100vh; width: 100vw; background-color: #ffffff; z-index: 1000; top: 0; left:0;">
+    
+  </div>
+
+  <div 
+    ng-show="(vm.errorMessage || vm.successMessage)"
+    ng-class="{'bg-danger': vm.errorMessage,
+              'bg-success': vm.successMessage}"
+    class="animated fadeInDown posFixTL paddingTopBottom-s paddingLeftRight-xm textAlign-center c-white width-100 fontWeight-7 zIndex-l">
+    {{vm.errorMessage}}
+    {{vm.successMessage}}
+    <span ng-click="vm.successMessage = ''; vm.errorMessage = ''" class="close floatRight">
+      <i class="fa fa-times"></i>
+    </span>
+  </div>
+
+  <!-- leftbar -->
+  <div style="width: 250px; height: 100vh; min-height: 500px;" class="zIndex-m bg-alblack posFixTL leftbar">
+    <div style="background-color: #48535E;" class="brand bg-alblack-d">
+      <div class="paddingLeftRight-xm c-white">
+        <img class="borderTopWidth-3 borderStyle-solid borderColor-primary paddingTopBottom-xm" src="assets/images/brand.svg" alt="">
+      </div>
+    </div>
+
+    <div  class="profile">
+      <div class="padding-xm c-alblack-l fontFamily-thaiSans fontWeight-7 fontSize-xm">
+        บัญชีของฉัน
+      </div>
+      <div class="bg-alblack-d padding-xm c-white">
+        <div style="width: 50px; height: 50px;" class="profile-img borderRadius-circle backgroundPos-center backgroundSize-cover backgroundRepeat-no-repeat bg-alblack display-inline-block verticalAlign-middle marginRight-xs">
+        </div>
+        <div class="animated fadeIn display-inline-block verticalAlign-middle fontSize-xxs c-alblack-l">
+          {{vm.me.name}}</br>
+          <div
+            ng-if="vm.me.type != 'user'"
+            ng-class="{'bg-primary': vm.me.type == 'staff',
+                       'bg-danger': vm.me.type == 'doctor' }"
+            class="animated fadeIn cursor-pointer paddingLeftRight-xs paddingTopBottom-xxs borderRadius-xxs c-white display-inline-block textTransform-uppercase">{{vm.me.type}}</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="menu-list">
+      <div class="padding-xm c-alblack-l fontFamily-thaiSans fontWeight-7 fontSize-xm">
+        รายการ
+      </div>
+      <ul>
+        <li ng-if="vm.me.type == 'user'" ui-sref-active="active" ui-sref="dashboard-user-profile" class="left-menu">
+          <i class="fa fa-user marginRight-s"></i> ประวัติของฉัน
+        </li>
+        <li ng-if="vm.me.type != 'user'" ng-click="vm.gotoMain()" class="left-menu">
+          <i class="fa fa-users marginRight-s"></i> รายชื่อผู้ป่วย
+        </li>
+        <li ng-if="vm.me.type == 'user'" ui-sref="dashboard-user" ui-sref-active="active" class="left-menu">
+          <i class="fa fa-heartbeat marginRight-s"></i> ภาพรวมสุขภาพ
+        </li>
+        <li ng-if="vm.me.type == 'user'" ui-sref="dashboard-user-parent" ui-sref-active="active" class="left-menu">
+          <i class="fa fa-users marginRight-s"></i> รายชื่อผู้ดูแล
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- end leftbar -->
+
+  <!-- topbar -->
+  <div style="padding-left: 250px;" class="topbar posFixTL width-100 zIndex-s">
+    <div style="line-height: 1.6" class="bg-white c-snow-dk padding-xm borderBottomWidth-1 borderStyle-solid borderColor-snow-d">
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="datetime fontFamily-thaiSans fontSize-m">
+            <div class="time display-inline-block">{{vm.clock | date:'hh:mm'}} <span class="fontSize-s textTransform-uppercase">{{ vm.clock | date:'a'}}</span></div><span class="marginLeft-s marginRight-xs c-snow-d fontFamily-thaiSans fontWeight-3">|</span>
+            <div class="date display-inline-block">{{vm.clock | date:'dd'}} <span class="fontSize-s textTransform-uppercase">{{vm.clock | date:'MMMM yyyy'}}</span></div>
+          </div>
+        </div>
+        <div ng-if="vm.me.type == 'user'" style="line-height: 2.7"  class="col-xs-4">
+            <div class="c-almost-l fontWeight-3 textAlign-center">
+              เชื่อมต่ออุปกรณ์เพิ่มเติม เพื่อตรวจเช็คสุขภาพของคุณ  <span ng-click="vm.addDevice = true;" class="link link-success textDecoration-underline"> เพิ่มเดี๋ยวนี้</span>
+            </div>
+        </div>
+        <div ng-class="{'col-xs-offset-4': vm.me.type != 'user'}"
+            class="col-xs-4 textAlign-right">
+            <div style="max-width: 100px;" ng-click="vm.logout()" class="lh-1 display-inline-block button button-m button-border-primary">
+              ออกจากระบบ
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end topbar -->
+
+
+  <div class="animated fadeIn" ui-view></div>
+
+
+  <div ng-show="vm.addDevice" style="height: 100vh; background: rgba(255,255,255,.95);" class="animated fadeIn posFixTL width-100 zIndex-m">
+    <div class="marginTop-xl">
+      <div style="max-width: 400px;" class="animated zoomIn position-relative borderStyle-solid borderColor-snow borderWidth-1 padding-xm bg-white boxShadow-card centered">
+        <span ng-click="vm.addDevice = false;" class="close link link-snow-d fontSize-l posPinTR paddingRight-s">
+          <i class="fa fa-times"></i>
+        </span>
+        <div class="fontSize-xl fontFamily-thaiSans textAlign-center fontWeight-7">
+          เพิ่มอุปกรณ์
+        </div>
+        <br>
+        <form ng-submit="vm.addDevice = false; vm.successMessage = 'test'" class="paddingLeftRight-xm">
+          <div class="form-group marginBottom-xm">
+            <div class="input input-full display-block textAlign-left">
+            {{vm.device.name}}
+              <input ng-model="vm.device.name" type="text" class="fontWeight-3" placeholder="ชื่ออุปกรณ์">
+            </div>
+          </div>
+          <div class="form-group marginBottom-xm">
+            <div class="select  textAlign-left">
+              <select ng-model="vm.device.type" class="fontWeight-3">
+                <option value="" selected disabled="">-- เลือกอุปกรณ์เพื่อเชื่อมต่อ --</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group marginBottom-xm">
+            <button type="submit" class="button button-m button-full button-primary">
+              เพิ่มอุปกรณ์
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

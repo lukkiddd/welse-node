@@ -1,0 +1,100 @@
+<!-- content -->
+<div style="padding-left: 250px; padding-top: 79px;" class="content">
+  <div class="wrapper margin-xm">
+    <div class="row margin-0">
+      <div class="col-xs-12 bg-white borderRadius-xxs borderWidth-1 borderColor-snow-d borderStyle-solid padding-xm">
+        <div class="row marginBottom-xm">
+          <div class="col-xs-8">
+            <div class="fontFamily-thaiSans fontSize-l c-primary">
+              Patient
+            </div>
+          </div>
+          <div class="col-xs-4 textAlign-right">
+            <div ng-click="vm.showAddPatientModal = true" class="button button-primary button-m display-inline-block">
+              เพิ่มผู้ป่วย
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <table class="width-100">
+              <tr ng-hide="vm.patients.length > 0" class="bg-snow">
+                <td colspan="3" class="textAlign-center verticalAlign-middle padding-s fontSize-m fontFamily-thaiSans">
+                  ไม่มีข้อมูล
+                </td>
+              </tr>
+              <tr ng-show="vm.patients.length > 0" ng-repeat="patient in vm.patients" class="bg-snow--hover">
+                <td class="verticalAlign-middle padding-s">
+                  <div style="width:50px; height:50px;" class="borderRadius-circle bg-snow-d display-inline-block  verticalAlign-middle marginRight-s"></div>
+                  <div class="display-inline-block verticalAlign-middle">
+                    {{patient.name}}
+                  </div>
+                </td>
+                <td class="verticalAlign-middle padding-s">
+                  <span ng-show="{{patient.status == 'pending'}}" class="label bg-warning c-white">{{patient.status}}</span>
+                </td>
+                <td class="verticalAlign-middle textAlign-right paddingTopBottom-s">
+                  <div ng-show="patient.status != 'pending'" ng-click="vm.declinePatient(patient)" class="button button-m button-danger display-inline-block">
+                    ยกเลิกการร้องขอ
+                  </div>
+                  <div style="min-width: 100px;"
+                  ng-class=" {
+                  'bg-white-d': patient.status == 'pending',
+                  'cursor-not-allowed': patient.status == 'pending',
+                  'bg-grey': patient.status != 'pending' }"
+                  ng-click="vm.userData($index, patient)"class="button button-m c-white display-inline-block">
+                    ดูข้อมูล
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end content -->
+
+
+
+<div ng-show="vm.showAddPatientModal" style="height: 100vh; background: rgba(255,255,255,.95);" class="animated fadeIn posFixTL width-100 zIndex-m">
+  <div class="marginTop-xl">
+    <div style="max-width: 600px;" class="animated zoomIn position-relative centered borderStyle-solid borderColor-snow borderWidth-1  boxShadow-card">
+      <div class="padding-xm bg-white">
+        <span ng-click="vm.patientControl = '';vm.showAddPatientModal = false;" class="close link link-snow-d fontSize-l posPinTR paddingRight-s">
+          <i class="fa fa-times"></i>
+        </span>
+        <div class="fontSize-xl fontFamily-thaiSans textAlign-center fontWeight-7">
+          เพิ่มผู้ป่วย
+        </div>
+        <br>
+        <div class="paddingLeftRight-xm">
+          <div class="form-group marginBottom-xm">
+            <div class="input input-full display-block textAlign-left position-relative">
+              <div class="input-prefix"><i class="fa fa-search c-grey-l"></i></div>
+              <input ng-model="vm.patientControl.fullName" style="text-indent: 20px" type="text" class="fontWeight-3" placeholder="ชื่อผู้ป่วยที่ต้องการค้นหา">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-snow padding-xm">
+        <ul style="height: 300px; overflow-y:scroll">
+          <li ng-repeat="user in vm.users | filter:vm.patientControl.fullName" class="padding-s bg-snow-d--hover borderBottomWidth-1 borderColor-snow-d borderStyle-solid">
+            <div class="row">
+              <div class="col-xs-6">
+                <div style="width: 40px; height: 40px;" class="borderRadius-circle display-inline-block bg-snow-dk verticalAlign-middle marginRight-xs"></div>
+                <span class="fontSize-m fontFamily-thaiSans c-primary verticalAlign-middle">{{user.name}}</span>    
+              </div>
+              <div class="col-xs-6 textAlign-right">
+                <div ng-click="vm.addPatientToList(user)" class="button button-m display-inline-block button-success verticalAlign-middle">
+                  เพิ่ม
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

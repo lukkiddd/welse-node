@@ -1,0 +1,51 @@
+<!-- content -->
+<div style="padding-left: 250px; padding-top: 79px;" class="content">
+  <div class="wrapper margin-xm">
+    <div class="row margin-0">
+      <div class="col-xs-12 bg-white borderRadius-xxs borderWidth-1 borderColor-snow-d borderStyle-solid padding-xm">
+        <div class="row marginBottom-xm">
+          <div class="col-xs-8">
+            <div class="fontFamily-thaiSans fontSize-l c-primary">
+              Staff
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <table class="width-100">
+              <tr ng-hide="vm.parents.length > 0" class="bg-snow">
+                <td colspan="3" class="textAlign-center verticalAlign-middle padding-s fontSize-m fontFamily-thaiSans">
+                  No data
+                </td>
+              </tr>
+              <tr ng-show="vm.parents.length > 0" ng-repeat="parent in vm.parents" class="bg-snow--hover">
+                <td class="verticalAlign-middle padding-s">
+                  <div style="width:50px; height:50px;" class="borderRadius-circle bg-snow-d display-inline-block  verticalAlign-middle marginRight-s"></div>
+                  <div class="display-inline-block verticalAlign-middle">
+                    {{parent.name}} <span ng-class="{'bg-primary': parent.type=='staff',
+                    'bg-danger': parent.type=='doctor'}" class="label c-white">{{parent.type}}</span>
+                  </div>
+                </td>
+                <td class="verticalAlign-middle padding-s">
+                  <span ng-show="parent.status == 'pending'" class="label bg-warning c-white">request</span>
+                </td>
+                <td class="verticalAlign-middle textAlign-right padding-s">
+                  <div ng-show="parent.status != 'pending'" ng-click="vm.declineParent(parent)" class="button button-m button-danger display-inline-block">
+                    Cancel
+                  </div>
+                  <div ng-show="parent.status == 'pending'" ng-click="vm.approveParent(parent)" class="button button-m button-success display-inline-block">
+                    Approve
+                  </div>
+                  <div ng-show="parent.status == 'pending'" ng-click="vm.declineParent(parent)" class="button button-m button-danger display-inline-block">
+                    Deny
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end content -->

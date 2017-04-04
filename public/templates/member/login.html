@@ -1,0 +1,63 @@
+<style>
+  .leftbar,
+  .topbar {
+    display: none !important;
+  }
+</style>
+
+<div 
+  ng-show="(vm.errorMessage || vm.successMessage)"
+  ng-class="{'bg-danger': vm.errorMessage,
+            'bg-success': vm.successMessage}"
+  class="animated fadeInDown posFixTL paddingTopBottom-s paddingLeftRight-xm zIndex-s textAlign-center c-white width-100 fontWeight-7">
+  {{vm.errorMessage}}
+  {{vm.successMessage}}
+  <span ng-click="vm.successMessage = ''; vm.errorMessage = ''" class="close floatRight">
+    <i class="fa fa-times"></i>
+  </span>
+</div>
+
+<div style="max-width: 350px; margin-top: 10vh" class="marginTop-xl centered borderRadius-xxs boxShadow-card bg-white">
+  <div class="padding-m">
+    <div class="title c-black fontFamily-thaiSans fontSize-xl fontWeight-7 textAlign-center">
+      เข้าสู่ระบบ
+    </div>
+    <div class="fontFamily-thaiSans fontSize-xm fontWeight-3 textAlign-center">
+      เช็คสุขภาพของคุณ
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <form ng-submit="vm.login(vm.user)" style="max-width: 200px;" class="marginTop-m centered">
+          <div class="form-group marginBottom-xm">
+            <div class="input input-full input-m  display-block textAlign-left">
+              <input ng-model="vm.user.email" type="email" class="fontWeight-3" placeholder="อีเมลล์">
+            </div>
+          </div>
+          <div class="form-group  marginBottom-xm">
+            <div class="input-group input input-m input-full display-block textAlign-left">
+              <input ng-model="vm.user.password" style="padding-right: 90px;" type="password" class="fontWeight-3" placeholder="รหัสผ่าน">
+              <label ui-sref="forgetpassword" class="input-suffix link link-primary" for="">ลืมรหัสผ่าน?</label>
+            </div>
+          </div>
+          <div class="form-group marginBottom-xm textAlign-center">
+            <button
+              ng-class="{
+                'button-grey-d': vm.loading,
+                'cursor-progress': vm.loading,
+                'c-white': vm.loading,
+                'button-success': !vm.loading}"
+              type="submit" class="button button-m button-full">
+              <span ng-hide="vm.loading">เข้าสู่ระบบ</span>
+              <span ng-show="vm.loading">รอสักครู่...</span>
+            </button>
+          </div>
+          <div class="form-group marginBottom-xm">
+            <div class="fontFamily-thaiSans fontSize-xm fontWeight-6 textAlign-center c-grey-l">
+              ยังไม่มีบัญชีผู้ใช้? <span ui-sref="signup({type:'user'})" class="textDecoration-underline link link-primary">สมัครเลย</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<!-- content -->
+<div id="exportthis" style="padding-left: 250px; padding-top: 79px;" class="content">
+  <div class="wrapper margin-xm">
+    <div class="row">
+      <div class="row marginBottom-xm margin-0">
+        <div class="col-xs-12">
+          <div class="bg-white borderRadius-xxs borderWidth-1 borderColor-snow-d borderStyle-solid padding-xm position-relative row margin-0">
+            <div class="fontSize-l fontFamily-thaiSans">
+              <span class="c-primary">{{vm.currentPatient.name}}</span>'s data
+            </div>
+          </div>
+        </div>
+      </div>
+<!--       <div class="row margin-0">
+        <div class="col-xs-12 textAlign-right marginBottom-xm">
+          <div ng-click="vm.exportPDF()" class="button button-primary display-inline-block button-m">Download</div>
+        </div>
+      </div> -->
+      <div ng-hide="vm.dataChart" class="row margin-0">
+        <div ng-repeat="(key, value) in vm.datas" class="animated fadeIn col-sm-6 col-md-4 col-lg-3 marginBottom-xm">
+          <div ng-click="vm.setChart(value)" style="height: 300px;" class="bg-white borderRadius-xxs borderWidth-1 borderColor-snow-d borderStyle-solid padding-xm position-relative cursor-pointer">
+            <div class="topic textAlign-center fontFamily-thaiSans fontSize-l c-snow-dk marginBottom-xm verticalAlign-middle">
+              {{value[0].topic}}
+            </div>
+            <div class="topic-img textAlign-center marginBottom-xm">
+              <img style="height: 70px;" src="assets/images/device-noicon.svg" alt="">
+            </div>
+            <div class="status textAlign-center marginBottom-m">
+              <div class="fontFamily-thaiSans status-text fontSize-xxl c-snow-d lh-1">
+                {{value[0].body | number : 0}}
+              </div>
+              <div class="fontSize-xs c-grey-l marginBottom-xm">
+                {{value[0].unit}}
+              </div>
+              <div class="fontSize-xxs c-grey-l">
+                Last updated {{value[0].fromNow}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-show="vm.dataChart" class="animated fadeIn row margin-0">
+        <div class="col-sm-12 marginBottom-xm">
+          <div ng-click="vm.dataChart = ''" class="cursor-pointer button button-m display-inline-block button-primary">
+            <i class="fa fa-arrow-left"></i> Back
+          </div>
+        </div>
+        <div class="col-sm-12 marginBottom-xm">
+          <div style="height: 300px;" class="bg-white borderRadius-xxs borderWidth-1 borderColor-snow-d borderStyle-solid padding-xm position-relative">
+            <div class="topic fontFamily-thaiSans fontSize-l c-snow-dk marginBottom-xm">
+              {{vm.dataChart.name}}
+            </div>
+            <highchart style="width: 100%; position: relative; max-width: 1000px;" class="centered" id="key" config="vm.chartConfig"></highchart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end content -->

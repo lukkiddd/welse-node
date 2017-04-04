@@ -26,7 +26,6 @@ router.route('/device')
         var data = JSON.stringify( req.body );
         var message = new Message(data);
         client.sendEvent(message, printResultFor('send'));
-
         return res.json(req.body);
     })
     .get(function(req,res) {

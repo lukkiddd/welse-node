@@ -1,0 +1,55 @@
+<style>
+  .leftbar,
+  .topbar {
+    display: none !important;
+  }
+</style>
+
+<div style="max-width: 350px; margin-top: 10vh" class="marginTop-xl centered borderRadius-xxs boxShadow-card bg-white">
+  <div class="padding-m">
+    <div class="title c-black fontFamily-thaiSans fontSize-xl fontWeight-7 textAlign-center">
+      สมัครสมาชิก
+    </div>
+    <div class="fontFamily-thaiSans fontSize-xm fontWeight-3 textAlign-center">
+      ร่วมสร้างสุขภาพให้ยอดเยี่ยม!
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <form ng-submit="vm.signup(vm.user) && vm.user.confirmPassword == vm.user.password" style="max-width: 200px;" class="marginTop-m centered">
+          <div class="form-group marginBottom-xm">
+            <div class="input input-full display-block textAlign-left">
+              <input ng-model="vm.user.email" type="email" class="fontWeight-3" placeholder="อีเมลล์">
+            </div>
+          </div>
+          <div class="form-group  marginBottom-xm">
+            <div class="input input-full display-block textAlign-left">
+              <input ng-model="vm.user.password" type="password" class="fontWeight-3" placeholder="รหัสผ่าน">
+              <small ng-show="vm.user.password.length < 6 && vm.user.password.length > 0" class="c-danger paddingLeft-s">รหัสผ่านต้องมากกว่า 6 ตัวอักษร</small>
+            </div>
+          </div>
+          <div class="form-group  marginBottom-xm">
+            <div class="input input-full display-block textAlign-left">
+              <input ng-model="vm.user.confirmPassword" type="password" class="fontWeight-3" placeholder="ยืนยันรหัสผ่าน">
+              <small ng-show="vm.user.confirmPassword != vm.user.password && vm.user.confirmPassword.length > 0" class="c-danger paddingLeft-s">รหัสผ่านไม่เหมือนกัน</small>
+            </div>
+          </div>
+          <div class="form-group marginBottom-m">
+            <div class="input input-full display-block textAlign-left">
+              <input ng-model="vm.user.fullName" type="text" class="fontWeight-3" placeholder="ชื่อ-นามสกุล">
+            </div>
+          </div>
+          <div class="form-group marginBottom-xm textAlign-center">
+            <button type="submit" class="button button-m button-success">
+              สมัครสมาชิก
+            </button>
+          </div>
+          <div class="form-group marginBottom-xm">
+            <div class="fontFamily-thaiSans fontSize-xm fontWeight-6 textAlign-center c-grey-l">
+              มีบัญชีแล้ว? <span ui-sref="login" class="textDecoration-underline link link-primary">เข้าสู่ระบบ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
