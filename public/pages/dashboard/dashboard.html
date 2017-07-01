@@ -1,0 +1,62 @@
+<!-- menubar -->
+<div class="menubar position-fixed bg-white fontFamily-primary-bold c-grey zIndex-m borderColor-foreground borderRightWidth-1 borderStyle-solid">
+		<div class="logo-name padding-s fontSize-m c-grey-d textAlign-center borderBottomWidth-1 borderColor-foreground borderStyle-solid" style="letter-spacing: 1px">
+				WELSE
+		</div>
+		<div class="menu-list padding-xm">
+				<div class="menu-title textTransform-uppercase fontSize-xs">
+						menu
+				</div>
+				<div ui-sref="dashboard.me" ui-sref-active="menu-item-active" class="menu-item link paddingTopBottom-xs marginTop-xs">
+						<i class="icon ion-android-home fontSize-xm display-inline-block" style="width: 23px"></i>
+						<span class="fontSize-s">Overview</span>
+				</div>
+				<div ui-sref="dashboard.friends" ui-sref-active="menu-item-active" class="menu-item link paddingTopBottom-xs">
+						<i class="icon ion-android-people fontSize-xm display-inline-block" style="width: 23px"></i>
+						<span class="fontSize-s">Friends</span>
+				</div>
+				<div class="menu-item -logout link paddingTopBottom-xs marginTop-xl">
+						<i class="icon ion-log-out c-grey fontSize-xm display-inline-block" style="width: 23px"></i>
+						<span ng-click="logout()" class="c-grey fontFamily-primary fontSize-s">Logout</span>
+				</div>
+		</div>
+</div>
+<!-- end menubar -->
+
+<!-- navbar -->
+<div class="navbar posFixTL bg-white width-100 zIndex-s borderBottomWidth-1 borderColor-foreground borderStyle-solid">
+		<div class="display-flex" style="align-items:center; height: 55px;">
+
+				<back-button></back-button>
+
+				<div style="flex: 1">
+						<div class="fontFamily-primary-bold fontSize-s textTransform-capitilze">
+							dashboard
+						</div>
+				</div>
+				<div style="flex: .3; align-items: center; justify-content: flex-end;" class="display-flex">
+						<div class="textAlign-right position-relative">
+								<i ng-click="showNoti = !showNoti" ng-class="{'c-grey': notiUnread, 'c-grey-l': !notiUnread}" class="icon ion-android-notifications fontSize-xm c-grey" style="margin-top:-2"></i>
+								<span ng-show="notiUnread" class="position-absolute bg-danger" style="width: 8px; height: 8px; border-radius: 50%; top: 0; right: -5px;"></span>
+								<div ng-show="showNoti" style="position: absolute; right: 0; width: 300px; height: 250px; overflow-y: scroll" class="animated fadeIn borderColor-foreground borderStyle-solid borderWidth-1 notificationsBox bg-white boxShadow-card textAlign-left">
+									<div ng-click="readNoti(noti)" ng-class="{'bg-foreground': !noti.isRead }" ng-repeat="noti in notifications | orderBy:'-'" class="bg-foreground-d--hover cursor-pointer notification-item fontFamily-primary padding-s borderBottomWidth-1 borderColor-grey-l borderStyle-solid">
+										<span class="fontFamily-primary-bold">{{noti.name}}</span>'s {{noti.data.name}} is <span class="c-danger textTransform-capitilze">{{noti.data.status}}</span> </br>
+										<span class="fontFamily-primary fontSize-xs c-grey">{{noti.timestamp * 1000 | date: 'MMM, M hh:mm'}}</span>
+									</div>
+								</div>
+						</div>
+						<div class="textAlign-right marginLeft-xm marginRight-s">
+							<div class="bg-grey-l" style="width: 40px; height: 40px; border-radius: 50%; background-position: center; background-size: cover; background-image: url('{{me.profile.profilePic}}')"></div>
+						</div>
+				</div>
+				<profile></profile>
+		</div>
+</div>
+<!-- end navbar -->
+
+
+<!-- ui view -->
+<div class="content-view" style="padding-top:55px;">
+	<div ui-view></div>
+</div>
+<!-- end ui view -->

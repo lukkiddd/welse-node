@@ -1,0 +1,80 @@
+<style>
+    .chart-box {
+        height: 150px;
+    }
+    .data-box {
+        height: 290px;
+        padding: 20px;
+    }
+    .status-icon div {
+        top: 22px;
+        right: 20px;
+    }
+    @media screen and (max-width: 991px) {
+        .chart-box {
+            height: 70px;
+            position: absolute;
+            width: 50%;
+            right: 0;
+            bottom: 0;
+        }
+        .data-box {
+            height: 130px;
+            padding: 10px;
+        }
+        .status-icon div {
+            top: 12px;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .xs-paddingRight-0 {
+            padding-right: 0 !important;
+        }
+        .button-add-wrapper {
+            width: 100%;
+        }
+        .button-add {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<div class="animated fadeIn">
+    <div class="padding-xm">
+        <div class="row margin-0">
+            <div ui-sref="dashboard.data({key: key, uid: vm.uid})" ng-repeat="(key,data) in vm.datas" class="col-xs-12 col-sm-4 col-md-3 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
+                <div ng-class="{'opac-xm': !data[data.length-1].value, 'cursor-pointer': data[data.length-1].value, 'boxShadow-card': data[data.length-1].value}" class="data-box bg-white borderWidth-1 borderColor-foreground position-relative">
+                    <div class="fontFamily-primary-bold textTransform-uppercase c-grey" style="max-width: 90%;">
+                        {{ data[data.length-1].name }} <span ng-show="data[0].unit" class="fontSize-xxs fontFamily-primary c-grey-l"> / {{ data[data.length-1].unit }}</span> 
+                    </div>
+                    <div ng-show="key === 'ast' || key === 'alt' || key === 'ggt'" class="status-icon">
+											<div ng-show="data[data.length - 1] > data[0] || data[data.length-1].isDanger" class="fontFamily-primary-bold c-danger posPinTR fontSize-xxs textTransform-uppercase">
+													warning
+											</div>
+											<div ng-hide="data[data.length - 1] > data[0] && data[data.length-1].isDanger" class="fontFamily-primary-bold c-success posPinTR fontSize-xxs textTransform-uppercase">
+													normal
+											</div>
+                    </div>
+										<div ng-show="data[data.length-1].isDanger && (key !== 'ast' || key !== 'alt' || key !== 'ggt')" class="status-icon">
+											<div ng-show="data[data.length-1].isDanger" class="fontFamily-primary-bold c-danger posPinTR fontSize-xxs textTransform-uppercase">
+													warning
+											</div>
+											<div ng-hide="data[data.length-1].isDanger" class="fontFamily-primary-bold c-success posPinTR fontSize-xxs textTransform-uppercase">
+													normal
+											</div>
+                    </div>
+                    <div ng-class="{'c-danger': data[data.length-1].isDanger, 'c-grey-d': !data[data.length-1].isDanger}"  style="line-height: 1.2" class="fontFamily-primary fontSize-xxl position-relative">
+                        {{ data[data.length-1].value || "--" }}
+                    </div>
+                    <div ng-show="data[data.length-1].timestamp" class="fontFamily-primary c-grey">
+                        {{ data[data.length-1].timeAgo }}
+                    </div>
+                    <div ng-hide="data[data.length-1].timestamp" class="fontFamily-primary c-grey">
+                        No updates
+                    </div>
+                    <highchart id="chartfriend" class="chart-box" config="vm.chartConfig[key]"></highchart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

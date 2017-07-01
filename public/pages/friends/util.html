@@ -1,0 +1,113 @@
+
+<!-- friend dashboard -->
+<div ng-show="vm.page == 'friend dashboard'" style="padding-top: 55px; padding-left: 205px; padding-right: 280px;">
+    <div class="padding-xm">
+        <div class="row margin-0 marginBottom-xm">
+            <div class="col-xs-12 paddingLeft-0">
+                <div ng-click="vm.page = 'friends'" class="button button-primary fontFamily-primary-bold paddingLeftRight-xm" style="width: 120px"><i class="icon ion-arrow-left-c marginRight-xs"></i> Go Back</div>
+            </div>
+        </div>
+        <div class="row margin-0">
+            <div ng-click="data[data.length-1].value && vm.selectFriendData(key,data)" ng-repeat="(key,data) in vm.friendData" class="col-xs-6 col-sm-4 paddingLeft-0 marginBottom-xm" style="height: 290px;">
+                <div ng-class="{'opac-xm': !data[data.length-1].value, 'cursor-pointer': data[data.length-1].value, 'boxShadow-card': data[data.length-1].value}" class="bg-white borderWidth-1 borderColor-foreground padding-xm position-relative">
+                    <div class="fontFamily-primary-bold textTransform-uppercase c-grey">
+                        {{ data[data.length-1].name }} <span ng-show="data[0].unit" class="fontSize-xxs fontFamily-primary c-grey-l"> / {{ data[data.length-1].unit }}</span>
+                    </div>
+                    <!--<div ng-show="data[data.length-1].isLive" class="live-icon">
+                        <i class="icon ion-android-wifi fontSize-l c-success posPinTR" style="right: 20px; top: 10px;"></i>
+                    </div>-->
+                    <div ng-class="{'c-danger': data[data.length-1].isDanger, 'c-grey-d': !data[data.length-1].isDanger}" class="fontFamily-primary fontSize-xxl">
+                        {{ data[data.length-1].value || "--" }}
+                    </div>
+                    <div ng-show="data[data.length-1].timestamp" class="fontFamily-primary c-grey">
+                        {{ data[data.length-1].timeAgo }}
+                    </div>
+                    <div ng-hide="data[data.length-1].timestamp" class="fontFamily-primary c-grey">
+                        No updates
+                    </div>
+                    <highchart style="height: 150px" id="chart3" config="vm.chartConfig3[key]"></highchart>
+                </div>
+            </div>
+        </div>
+        <div class="profile bg-white position-fixed boxShadow-card" style="top: 0; right: 0; width: 280px; height: 100vh; padding-top: 55px; word-wrap: break-word;">
+            <div class="padding-xm">
+                <div class="textAlign-center marginBottom-xm">
+                    <div class="bg-foreground marginBottom-xm" style="margin-left: auto; margin-right: auto; width: 120px; height: 120px; border-radius: 50%; background-position: center; background-size: cover; background-image: url('{{vm.selectedFriend.profile.profilePic}}')"></div>
+                    <span class="fontFamily-primary-bold fontSize-xm">{{vm.selectedFriend.profile.fname}}</span> <span class="fontFamily-primary-bold fontSize-xm">{{vm.selectedFriend.profile.lname}}</span>
+                </div>
+                <div ng-repeat="d in vm.selectedFriend.profile.data" class="fontFamily-primary lh-2 fontSize-s">
+                    <span class="fontFamily-primary-bold textTransform-capitilze">{{d.name}}</span>: {{d.value}} {{d.unit}}
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+<!-- end friend dashboard -->
+
+
+<!-- friend dashboard detail -->
+<div ng-show="vm.page == 'friend dashboard detail'" style="padding-top: 55px; padding-left: 205px; padding-right: 280px;">
+    <div class="padding-xm">
+        <div class="row margin-0 marginBottom-xm">
+            <div class="col-xs-12 paddingLeft-0">
+                <div ng-click="vm.page = 'friend dashboard'" class="button button-primary fontFamily-primary-bold paddingLeftRight-xm" style="width: 120px"><i class="icon ion-arrow-left-c marginRight-xs"></i> Go Back</div>
+            </div>
+        </div>
+        <div class="row margin-0">
+            <div class="col-xs-12 paddingLeft-0 marginBottom-xm">
+                <div class="bg-white borderWidth-1 borderColor-foreground padding-xm position-relative" style="height: 290px;">
+                    <div class="fontFamily-primary-bold textTransform-uppercase c-grey">
+                        {{ vm.selectedFriendData[vm.selectedFriendData.length - 1].name }} <span ng-show="vm.selectedFriendData[vm.selectedFriendData.length - 1].unit" class="fontSize-xxs fontFamily-primary c-grey-l"> / {{ vm.selectedFriendData[vm.selectedFriendData.length - 1].unit }}</span>
+                    </div>
+                    <!--<div ng-show="vm.selectedFriendData[vm.selectedFriendData.length - 1].isLive" class="live-icon">
+                        <i class="icon ion-android-wifi fontSize-l c-success posPinTR" style="right: 20px; top: 10px;"></i>
+                    </div>-->
+                    <div ng-class="{'c-danger': vm.selectedFriendData[vm.selectedFriendData.length - 1].isDanger, 'c-grey-d': !vm.selectedFriendData[vm.selectedFriendData.length - 1].isDanger}" class="fontFamily-primary fontSize-xxl">
+                        {{ vm.selectedFriendData[vm.selectedFriendData.length - 1].value || "--" }}
+                    </div>
+                    <div ng-show="vm.selectedFriendData[vm.selectedFriendData.length - 1].timestamp" class="fontFamily-primary c-grey">
+                        {{ vm.selectedFriendData[vm.selectedFriendData.length - 1].timeAgo }}
+                    </div>
+                    <div ng-hide="vm.selectedFriendData[vm.selectedFriendData.length - 1].timestamp" class="fontFamily-primary c-grey">
+                        No updates
+                    </div>
+                    <highchart style="height: 150px" id="chart4" config="vm.chartConfig4"></highchart>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-0">
+            <div class="col-xs-12 paddingLeft-0">
+                <div class="bg-white borderWidth-1 borderColor-foreground paddingTopBottom-xm position-relative boxShadow-card fontFamily-primary">
+                    <div class="data-history">
+                        <div class="fontFamily-primary-bold c-grey textTransform-uppercase paddingLeftRight-xm paddingLeftRight-xm">
+                            history
+                        </div>
+                        <div ng-repeat="data in vm.selectedFriendData | orderBy:'-'" class="row margin-0 friend-item paddingTopBottom-xm paddingLeftRight-xm fontFamily-primary">
+                            <div class="col-xs-3 c-grey-d padding-0 fontFamily-primary-bold">
+                                {{ data.value }} <span ng-show="data.unit" class="fontFamily-primary c-grey-l textTransform-uppercase">/ {{data.unit}}</span>
+                            </div>
+                            <div class="col-xs-3 c-grey-d textTransform-capitilze">
+                                {{ data.name }}
+                            </div>
+                            <div class="col-xs-6 textAlign-right c-grey-l">
+                                {{ data.timestamp * 1000  | date:'medium'}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="profile bg-white position-fixed boxShadow-card" style="top: 0; right: 0; width: 280px; height: 100vh; padding-top: 55px; word-wrap: break-word;">
+            <div class="padding-xm">
+                <div class="textAlign-center marginBottom-xm">
+                    <div class="bg-foreground marginBottom-xm" style="margin-left: auto; margin-right: auto; width: 120px; height: 120px; border-radius: 50%; background-position: center; background-size: cover; background-image: url('{{vm.selectedFriend.profile.profilePic}}')"></div>
+                    <span class="fontFamily-primary-bold fontSize-xm">{{vm.selectedFriend.profile.fname}}</span> <span class="fontFamily-primary-bold fontSize-xm">{{vm.selectedFriend.profile.lname}}</span>
+                </div>
+                <div ng-repeat="d in vm.selectedFriend.profile.data" class="fontFamily-primary lh-2 fontSize-s">
+                    <span class="fontFamily-primary-bold textTransform-capitilze">{{d.name}}</span>: {{d.value}} {{d.unit}}
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+<!-- end friend dashboard detail -->
