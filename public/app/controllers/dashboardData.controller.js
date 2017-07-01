@@ -42,7 +42,7 @@
 				$scope.chartData = {};
 				$scope.chartData = {
 					chart: {
-						height: 200,
+						height: 400,
 					},
 					legend: {
 						enabled: false,

@@ -13,7 +13,7 @@
     <div class="padding-xm">
         <div class="row margin-0">
             <div class="col-xs-12 paddingLeft-0 marginBottom-xm">
-                <div class="bg-white borderWidth-1 borderColor-foreground padding-xm position-relative" style="height: 290px;">
+                <div class="bg-white borderWidth-1 borderColor-foreground padding-xm position-relative" style="height: 400px;">
                     <div class="fontFamily-primary-bold textTransform-uppercase c-grey">
                         {{ selectedData[selectedData.length - 1].name }} <span ng-show="selectedData[selectedData.length - 1].unit" class="fontSize-xxs fontFamily-primary c-grey-l"> / {{ selectedData[selectedData.length - 1].unit }}</span>
                     </div>
@@ -26,7 +26,7 @@
                     <div ng-hide="selectedData[selectedData.length - 1].timestamp" class="fontFamily-primary c-grey">
                         No updates
                     </div>
-                    <highchart style="height: 150px" id="chartData" config="chartData"></highchart>
+                    <highchart style="height: 260px" id="chartData" config="chartData"></highchart>
                 </div>
             </div>
         </div>

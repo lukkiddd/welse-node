@@ -254,6 +254,9 @@
 							series: [{
 								name: 'Value',
 								type: vm.datas[key][0].chartType || 'line',
+								marker: {
+									enabled: false
+								},
 								data: vals,
 								showInLegend: false,
 								color: '#2a65ff',
