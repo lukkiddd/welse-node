@@ -39,8 +39,8 @@ app.get('/api/ihealth/user', function(req, res) {
   var BASE_IHEALTH_URL = 'http://sandboxapi.ihealthlabs.com/openapiv2/application';
 
   var url = BASE_IHEALTH_URL + '/glucose/' +
-    '?client_id=66d6165b96d6461cb055947104e89a5e' +
-    '&client_secret=ec3da8322fa64dcf91664d8da6b840c4' +
+    '?client_id=94f7c847933a485e9fb9b65203085fd5' +
+    '&client_secret=e3a0b2dda7c64d6d834e7718a91b9ea3' +
     '&access_token=' + req.query.accessToken;
   console.log(url);
   request(url, function (error, response, body) {
@@ -54,7 +54,7 @@ app.get('/api/ihealth/user', function(req, res) {
 app.get('/api/ihealth/callback', function(req, res) {
   if(req.query.code) {
     var code = req.query.code;
-    var url = 'http://sandboxapi.ihealthlabs.com/OpenApiV2/OAuthv2/userauthorization/?client_id=66d6165b96d6461cb055947104e89a5e&client_secret=ec3da8322fa64dcf91664d8da6b840c4&grant_type=authorization_code&redirect_uri=https%3A%2F%2Fwelse-app.azurewebsites.net%2Fapi%2Fihealth%2Fcallback&code=' + code;
+    var url = 'http://sandboxapi.ihealthlabs.com/OpenApiV2/OAuthv2/userauthorization/?client_id=94f7c847933a485e9fb9b65203085fd5&client_secret=e3a0b2dda7c64d6d834e7718a91b9ea3&grant_type=authorization_code&redirect_uri=https%3A%2F%2Fwelse-app.azurewebsites.net%2Fapi%2Fihealth%2Fcallback&code=' + code;
     request(url, function (error, response, body) {
       var data = JSON.parse(body);
       var access_token = data.AccessToken;
