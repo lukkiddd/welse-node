@@ -108,6 +108,18 @@
                         </a>
                     </div>
                 </div>
+                <div class="row margin-0 user-item paddingTopBottom-s paddingLeftRight-xs borderBottomWidth-1 borderColor-foreground borderStyle-solid ">
+                    <div style="padding-top: 5px; padding-bottom: 5px;" class="col-xs-8 c-grey-d fontFamily-primary-bold paddingLeftRight-0">
+                        <span style="text-transform: capitalize;">Fitbit</span>
+                    </div>
+                    <div class="col-xs-4 paddingLeftRight-0 textAlign-right">
+                        <a href="https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22862W&redirect_uri=https%3A%2F%2Fwelse-app.azurewebsites.net%2Fapi%2Ffitbit%2Fcallback&scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800" class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px; width:80px; display:block; float: right;">
+                            Add
+                        </a>
+                    </div>
+                </div>
+
+
                 <div ng-repeat="thirdPartyItem in vm.thirdPartyList | filter:vm.thirdPartySearch" class="row margin-0 user-item paddingTopBottom-s paddingLeftRight-xs borderBottomWidth-1 borderColor-foreground borderStyle-solid ">
                     <div style="padding-top: 5px; padding-bottom: 5px;" class="col-xs-8 c-grey-d fontFamily-primary-bold paddingLeftRight-0">
                         <span style="text-transform: capitalize;">{{thirdPartyItem.name}}</span>

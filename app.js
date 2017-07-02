@@ -4,6 +4,8 @@ var express = require('express'),
   config = require('./config/config'),
   bodyParser = require('body-parser'),
   firebase = require('firebase'),
+  FitbitApiClient = require("fitbit-node"),
+  fitbit_client = new FitbitApiClient("22862W", "b2c0662cae46bfbd023afea8634a5d26"),
   request = require('request');
 
 var fireConfig = {
@@ -42,10 +44,9 @@ app.get('/api/ihealth/user', function(req, res) {
     '?client_id=a0550986de68400d8c3707c911c93b95' +
     '&client_secret=dd6187e7fe85487abdb904535ee45365' +
     '&access_token=' + req.query.accessToken;
-  console.log(url);
+
   request(url, function (error, response, body) {
     var data = JSON.parse(body);
-    console.log(data);
     res.json(data);
   })
   // console.log(req.query);
@@ -90,4 +91,22 @@ app.get('/api/ihealth/callback', function(req, res) {
   //   .then(function() {
   //     res.redirect('/#/dashboard/user');
   //   })
+})
+
+app.get('api/fitbit/auth', function (req,res) {
+  res.redirect(fitbit_client.getAuthorizeUrl('activity heartrate location nutrition profile settings sleep social weight', 'https://welse-app.azurewebsites.net/api/fitbit/callback'));
+})
+
+app.get('api/fitbit/done', function (req,res) {
+  console.log(req.body);
+})
+
+app.get('api/fitbit/callback', function (req, res) {
+  fitbit_client.getAccessToken(req.query.code, 'https://welse-app.azurewebsites.net/api/fitbit/done').then(function (result) {
+    fitbit_client.get("/profile.json", result.access_token).then(function (results) {
+      res.send(results[0]);
+    });
+  }).catch(function (error) {
+    res.send(error);
+  });
 })

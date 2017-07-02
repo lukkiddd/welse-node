@@ -39,8 +39,6 @@
 		vm.showAddDevice = false;
 		vm.addNewDevice = addNewDevice;
 		vm.thirdPartyList = [{
-			name: "fitbit"
-		},{
 			name: "wahoo",
 		},{
 			name: "skulpt aim"
