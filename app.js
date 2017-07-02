@@ -36,9 +36,9 @@ app.get('/', function(req, res){
 });
 
 app.get('/api/ihealth/user', function(req, res) {
-  var BASE_IHEALTH_URL = 'http://sandboxapi.ihealthlabs.com/openapiv2/application';
+  var BASE_IHEALTH_URL = 'http://sandboxapi.ihealthlabs.com/openapiv2/user';
 
-  var url = BASE_IHEALTH_URL + '/glucose/' +
+  var url = BASE_IHEALTH_URL + '/' + req.query.userId + '/glucose.json/' +
     '?client_id=94f7c847933a485e9fb9b65203085fd5' +
     '&client_secret=e3a0b2dda7c64d6d834e7718a91b9ea3' +
     '&access_token=' + req.query.accessToken;
