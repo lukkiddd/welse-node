@@ -59,8 +59,8 @@ app.get('/api/ihealth/callback', function(req, res) {
       var data = JSON.parse(body);
       var access_token = data.AccessToken;
       var user_id = data.UserID;
-      // res.redirect('/#/ihealth/' + access_token + '/' + user_id);
-      res.json(data);
+      res.redirect('/#/ihealth/' + access_token + '/' + user_id);
+      // res.json(data);
     });
   }
   // res.json(req.params)
