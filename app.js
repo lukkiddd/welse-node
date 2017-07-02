@@ -99,7 +99,7 @@ app.get('/api/fitbit/auth', function (req,res) {
 
 app.get('/api/fitbit/callback', function (req, res) {
   fitbit_client.getAccessToken(req.query.code, 'https://welse-app.azurewebsites.net/api/fitbit/callback').then(function (result) {
-    fitbit_client.get("/activities/heart/date/today/1d.json", result.access_token).then(function (results) {
+    fitbit_client.get("/activities/steps/date/today/1d.json", result.access_token).then(function (results) {
       res.send(results[0]);
     });
   }).catch(function (error) {
