@@ -34,31 +34,33 @@ app.get('/', function(req, res){
   res.redirect('/index.html');
 });
 
-app.get('/ihealth/callback', function(req, res) {
-  d = new Date();
-  d.setMonth(d.getMonth() - 1);
-  firebase.database().ref(`/health/STdHTA9CvIdJGtqjg0ZVYQCqK9t2/`)
-    .push({
-      chartType: 'line',
-      isDanger: false,
-      isLive: false,
-      name: 'Blood glucose',
-      timestatmp: d.getTime() / 1000,
-      unit: 'mg/dl',
-      value: 98,
-    })
-  d.setMonth(d.getMonth() - 1);
-  firebase.database().ref(`/health/STdHTA9CvIdJGtqjg0ZVYQCqK9t2/`)
-    .push({
-      chartType: 'line',
-      isDanger: true,
-      isLive: false,
-      name: 'Blood glucose',
-      timestatmp: d.getTime() / 1000,
-      unit: 'mg/dl',
-      value: 123,
-    })
-    .then(function() {
-      res.redirect('/#/dashboard/user');
-    })
+app.get('/api/ihealth/callback', function(req, res) {
+  console.log(req);
+  res.json(req);
+  // d = new Date();
+  // d.setMonth(d.getMonth() - 1);
+  // firebase.database().ref(`/health/STdHTA9CvIdJGtqjg0ZVYQCqK9t2/`)
+  //   .push({
+  //     chartType: 'line',
+  //     isDanger: false,
+  //     isLive: false,
+  //     name: 'Blood glucose',
+  //     timestatmp: d.getTime() / 1000,
+  //     unit: 'mg/dl',
+  //     value: 98,
+  //   })
+  // d.setMonth(d.getMonth() - 1);
+  // firebase.database().ref(`/health/STdHTA9CvIdJGtqjg0ZVYQCqK9t2/`)
+  //   .push({
+  //     chartType: 'line',
+  //     isDanger: true,
+  //     isLive: false,
+  //     name: 'Blood glucose',
+  //     timestatmp: d.getTime() / 1000,
+  //     unit: 'mg/dl',
+  //     value: 123,
+  //   })
+  //   .then(function() {
+  //     res.redirect('/#/dashboard/user');
+  //   })
 })
