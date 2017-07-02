@@ -35,8 +35,11 @@ app.get('/', function(req, res){
 });
 
 app.get('/api/ihealth/callback', function(req, res) {
-  console.log(req);
-  res.json(req);
+
+  
+  // res.json(JSON.stringify(req));
+  console.log(req.params);
+  res.json(req.params)
   // d = new Date();
   // d.setMonth(d.getMonth() - 1);
   // firebase.database().ref(`/health/STdHTA9CvIdJGtqjg0ZVYQCqK9t2/`)
