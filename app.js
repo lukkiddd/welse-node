@@ -103,7 +103,7 @@ app.get('/api/fitbit/done', function (req,res) {
 
 app.get('/api/fitbit/callback', function (req, res) {
   fitbit_client.getAccessToken(req.query.code, 'https://welse-app.azurewebsites.net/api/fitbit/callback').then(function (result) {
-    fitbit_client.get("/profile.json", result.access_token).then(function (results) {
+    fitbit_client.get("/activities/steps", result.access_token).then(function (results) {
       res.send(results[0]);
     });
   }).catch(function (error) {
