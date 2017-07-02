@@ -97,13 +97,9 @@ app.get('/api/fitbit/auth', function (req,res) {
   res.redirect(fitbit_client.getAuthorizeUrl('activity heartrate location nutrition profile settings sleep social weight', 'https://welse-app.azurewebsites.net/api/fitbit/callback'));
 })
 
-app.get('/api/fitbit/done', function (req,res) {
-  console.log(req.body);
-})
-
 app.get('/api/fitbit/callback', function (req, res) {
   fitbit_client.getAccessToken(req.query.code, 'https://welse-app.azurewebsites.net/api/fitbit/callback').then(function (result) {
-    fitbit_client.get("/activities/steps", result.access_token).then(function (results) {
+    fitbit_client.get("/activities/steps.json", result.access_token).then(function (results) {
       res.send(results[0]);
     });
   }).catch(function (error) {
