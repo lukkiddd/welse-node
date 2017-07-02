@@ -3,7 +3,8 @@
 var express = require('express'),
   config = require('./config/config'),
   bodyParser = require('body-parser'),
-  firebase = require('firebase');
+  firebase = require('firebase'),
+  request = require('request');
 
 var fireConfig = {
 	apiKey: "AIzaSyBsXQ4ZjWB1C0dumOVK8tNZf8MlNcMauqc",
@@ -29,17 +30,39 @@ app.listen(config.port, function () {
 });
 
 app.use(express.static(__dirname + '/public'));
-// http://sandboxapi.ihealthlabs.com/OpenApiV2/OAuthv2/userauthorization/?client_id=620360bb5c0c46019527d34a6b6c49bd&response_type=code&redirect_uri=http%3A%2F%2Fwelseapps.azurewebsites.net%2Fihealth%2Fcallback&APIName=OpenApiActivity%20OpenApiBG%20OpenApiBP%20OpenApiSleep
+
 app.get('/', function(req, res){
   res.redirect('/index.html');
 });
 
-app.get('/api/ihealth/callback', function(req, res) {
+app.get('/api/ihealth/user', function(req, res) {
+  var BASE_IHEALTH_URL = 'http://sandboxapi.ihealthlabs.com/openapiv2/application';
 
-  
-  // res.json(JSON.stringify(req));
-  console.log(req.params);
-  res.json(req.params)
+  var url = BASE_IHEALTH_URL + '/glucose/' +
+    '?client_id=0a5b29b8fe114743990ba3c4ca4ebcb3' +
+    '&client_secret=131d1e63fa15449abc3e17936ac0ddac' +
+    '&access_token=' + req.query.accessToken;
+  console.log(url);
+  request(url, function (error, response, body) {
+    var data = JSON.parse(body);
+    console.log(data);
+    res.json(data);
+  })
+  // console.log(req.query);
+})
+
+app.get('/api/ihealth/callback', function(req, res) {
+  if(req.query.code) {
+    var code = req.query.code;
+    var url = 'http://sandboxapi.ihealthlabs.com/OpenApiV2/OAuthv2/userauthorization/?client_id=0a5b29b8fe114743990ba3c4ca4ebcb3&client_secret=131d1e63fa15449abc3e17936ac0ddac&grant_type=authorization_code&redirect_uri=https%3A%2F%2Fwelse-app.azurewebsites.net%2Fapi%2Fihealth%2Fcallback&code=' + code;
+    request(url, function (error, response, body) {
+      var data = JSON.parse(body);
+      var access_token = data.AccessToken;
+      var user_id = data.UserID;
+      res.redirect('/#/ihealth/' + access_token + '/' + user_id);
+    });
+  }
+  // res.json(req.params)
   // d = new Date();
   // d.setMonth(d.getMonth() - 1);
   // firebase.database().ref(`/health/STdHTA9CvIdJGtqjg0ZVYQCqK9t2/`)

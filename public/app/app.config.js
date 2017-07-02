@@ -55,11 +55,18 @@
 			controllerAs: 'vm'
 		}
 
+		var ihealth = {
+			name: 'ihealth',
+			url: '/ihealth/:accessToken/:userId',
+			controller: 'ihealthCtrl'
+		}
+
 		$stateProvider.state(dashboard);
 		$stateProvider.state(dashboardMe);
 		$stateProvider.state(dashboardData);
 		$stateProvider.state(friends);
 		$stateProvider.state(friendsDashboard);
+		$stateProvider.state(ihealth);
 		$stateProvider.state(login);
 		$urlRouterProvider.otherwise("/login");
 	}
