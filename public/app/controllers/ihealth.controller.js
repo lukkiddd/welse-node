@@ -9,7 +9,7 @@
 
 	function ihealthCtrl($state, $stateParams, $http, Auth) {
 
-		var BASE_URL = 'http://localhost:3000'
+		var BASE_URL = 'https://welse-app.azurewebsites.net'
 
 		Auth.$onAuthStateChanged(function(authData) {
 			var uid = authData.uid;
