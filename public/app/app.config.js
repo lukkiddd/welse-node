@@ -61,12 +61,19 @@
 			controller: 'ihealthCtrl'
 		}
 
+		var fitbit = {
+			name: 'fitbit',
+			url: '/fitbit/:data',
+			controller: 'fitbitCtrl'
+		}
+
 		$stateProvider.state(dashboard);
 		$stateProvider.state(dashboardMe);
 		$stateProvider.state(dashboardData);
 		$stateProvider.state(friends);
 		$stateProvider.state(friendsDashboard);
 		$stateProvider.state(ihealth);
+		$stateProvider.state(fitbit);
 		$stateProvider.state(login);
 		$urlRouterProvider.otherwise("/login");
 	}
