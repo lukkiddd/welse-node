@@ -122,12 +122,15 @@
 
                 <div ng-repeat="thirdPartyItem in vm.thirdPartyList | filter:vm.thirdPartySearch" class="row margin-0 user-item paddingTopBottom-s paddingLeftRight-xs borderBottomWidth-1 borderColor-foreground borderStyle-solid ">
                     <div style="padding-top: 5px; padding-bottom: 5px;" class="col-xs-8 c-grey-d fontFamily-primary-bold paddingLeftRight-0">
-                        <span style="text-transform: capitalize;">{{thirdPartyItem.name}}</span>
+                        <span style="text-transform: capitalize; opacity: .4;">{{thirdPartyItem.name}}</span>
                     </div>
                     <div class="col-xs-4 paddingLeftRight-0 textAlign-right">
-                        <button ng-click="vm.addNewDevice(thirdPartyItem)" class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px;">
+                        <button class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px; cursor: not-allowed; background-color: #ddd;">
                             Add
                         </button>
+                        <!--<button ng-click="vm.addNewDevice(thirdPartyItem)" class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px;">
+                            Add
+                        </button>-->
                     </div>
                 </div>
             </div>

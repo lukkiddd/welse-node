@@ -49,7 +49,6 @@ app.get('/api/ihealth/user', function(req, res) {
     var data = JSON.parse(body);
     res.json(data);
   })
-  // console.log(req.query);
 })
 
 app.get('/api/ihealth/callback', function(req, res) {
@@ -61,36 +60,8 @@ app.get('/api/ihealth/callback', function(req, res) {
       var access_token = data.AccessToken;
       var user_id = data.UserID;
       res.redirect('/#/ihealth/' + access_token + '/' + user_id);
-      // res.json(data);
     });
   }
-  // res.json(req.params)
-  // d = new Date();
-  // d.setMonth(d.getMonth() - 1);
-  // firebase.database().ref(`/health/STdHTA9CvIdJGtqjg0ZVYQCqK9t2/`)
-  //   .push({
-  //     chartType: 'line',
-  //     isDanger: false,
-  //     isLive: false,
-  //     name: 'Blood glucose',
-  //     timestatmp: d.getTime() / 1000,
-  //     unit: 'mg/dl',
-  //     value: 98,
-  //   })
-  // d.setMonth(d.getMonth() - 1);
-  // firebase.database().ref(`/health/STdHTA9CvIdJGtqjg0ZVYQCqK9t2/`)
-  //   .push({
-  //     chartType: 'line',
-  //     isDanger: true,
-  //     isLive: false,
-  //     name: 'Blood glucose',
-  //     timestatmp: d.getTime() / 1000,
-  //     unit: 'mg/dl',
-  //     value: 123,
-  //   })
-  //   .then(function() {
-  //     res.redirect('/#/dashboard/user');
-  //   })
 })
 
 app.get('/api/fitbit/auth', function (req,res) {
@@ -100,7 +71,6 @@ app.get('/api/fitbit/auth', function (req,res) {
 app.get('/api/fitbit/callback', function (req, res) {
   fitbit_client.getAccessToken(req.query.code, 'https://welse-app.azurewebsites.net/api/fitbit/callback').then(function (result) {
     fitbit_client.get("/activities/steps/date/today/1d.json", result.access_token).then(function (results) {
-      // res.send(results[0]);
       var data = JSON.stringify(results[0]);
       res.redirect('/#/fitbit/' + data);
     });

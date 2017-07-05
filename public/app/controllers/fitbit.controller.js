@@ -13,8 +13,6 @@
 			var data = JSON.parse($stateParams.data);
 
 			Auth.$onAuthStateChanged(function(authData) {
-				console.log(data);
-				console.log(data['activities-steps'])
 				if(authData) {
 					_.forEach(data['activities-steps'], function (val) {
 						var time = new Date(val.dateTime).getTime();
@@ -23,11 +21,12 @@
 								chartType: 'column',
 								isDanger: false,
 								name: 'Steps',
-								timestamp: time,
+								timestamp: time / 1000,
 								unit: 'steps',
 								value: val.value
 							});
-						});
+					});
+					$state.go('dashboard.me');
 				}
 			});
 		}
