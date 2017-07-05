@@ -13,6 +13,7 @@
 			var data = JSON.parse($stateParams.data);
 
 			Auth.$onAuthStateChanged(function(authData) {
+				console.log(data);
 				if(authData) {
 					_.forEach(data['activities-steps'], function (val) {
 						var time = new Date(val.dateTime).getTime();
@@ -26,7 +27,7 @@
 								value: val.value
 							});
 					});
-					$state.go('dashboard.me');
+					// $state.go('dashboard.me');
 				}
 			});
 		}

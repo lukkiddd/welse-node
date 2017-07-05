@@ -65,12 +65,12 @@ app.get('/api/ihealth/callback', function(req, res) {
 })
 
 app.get('/api/fitbit/auth', function (req,res) {
-  res.redirect(fitbit_client.getAuthorizeUrl('activity heartrate location nutrition profile settings sleep social weight', 'https://welse-app.azurewebsites.net/api/fitbit/callback'));
+  res.redirect(fitbit_client.getAuthorizeUrl('activity', 'https://welse-app.azurewebsites.net/api/fitbit/callback'));
 })
 
 app.get('/api/fitbit/callback', function (req, res) {
   fitbit_client.getAccessToken(req.query.code, 'https://welse-app.azurewebsites.net/api/fitbit/callback').then(function (result) {
-    fitbit_client.get("/activities/steps/date/today/1d.json", result.access_token).then(function (results) {
+    fitbit_client.get("/activities/steps/date/today/1y.json", result.access_token).then(function (results) {
       var data = JSON.stringify(results[0]);
       res.redirect('/#/fitbit/' + data);
     });
