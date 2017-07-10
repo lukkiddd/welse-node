@@ -18,7 +18,7 @@
             right: 0;
             bottom: 0;
         }
-        .data-box {
+        .data-box:not(.friends-box) {
             height: 130px;
             padding: 10px;
         }
@@ -83,6 +83,61 @@
                 </div>
             </div>
         </div>
+        <div class="row margin-0">
+            <div class="col-xs-12 col-sm-6 col-md-6 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
+                <div class="data-box friends-box bg-white borderWidth-1 borderColor-foreground position-relative boxShadow-card">
+                    <div class="fontFamily-primary-bold c-grey textTransform-uppercase paddingLeftRight-s">
+                        friends
+                    </div>
+                    <div ng-click="vm.friends_modal.show()" class="link link-grey fontSize-xm" style="position: absolute; top: 15px; right: 20px;">
+                        <i class="ion-person-add"></i>
+                    </div>
+                    <div style="overflow-y: scroll; height: 100%;">
+                        <div ng-show="vm.friends.length > 0" class="mf">
+                            <div >
+                                <div ui-sref="dashboard.friendsDashbaord({ uid: fr.uid })" ng-repeat="fr in vm.friends" class="row margin-0 friend-item padding-s cursor-pointer bg-foreground--hover">
+                                    <div class="floatLeft marginRight-xm">
+                                        <div class="bg-foreground" style="width: 30px; height: 30px; border-radius: 50%; background-position: center; background-size: cover; background-image: url('{{fr.profile.profilePic}}')"></div>
+                                    </div>
+                                    <div style="padding: 5px 0;" class="floatLeft c-grey-d fontFamily-primary-bold">
+                                        {{fr.profile.fname}} {{fr.profile.lname}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
+                <div class="data-box friends-box bg-white borderWidth-1 borderColor-foreground position-relative boxShadow-card">
+                    <div class="fontFamily-primary-bold c-grey textTransform-uppercase paddingLeftRight-s">
+                        friends request
+                    </div>
+                    <div style="overflow-y: scroll; height: 100%;">
+                        <div ng-show="vm.friendsRequest.length > 0" class="freq">
+                            <div ng-repeat="fr in vm.friendsRequest" class="row margin-0 friend-item padding-s">
+                                <div class="floatLeft marginRight-xm">
+                                    <div class="bg-foreground" style="width: 50px; height: 50px; border-radius: 50%; background-position: center; background-size: cover; background-image: url('{{fr.profile.profilePic}}')"></div>
+                                </div>
+                                <div class="floatLeft">
+                                    <div style="padding: 0;"class="c-grey-d fontFamily-primary-bold">
+                                        {{fr.profile.fname}} {{fr.profile.lname}}
+                                    </div>
+                                    <div>
+                                        <div ng-click="vm.confirmFriendRequest(fr)" class="button display-inline-block button-primary paddingLeftRight-xs fontFamily-primary-bold" style="width: 60px; padding: 1px 0;">
+                                            Confirm
+                                        </div>
+                                        <div ng-click="vm.deleteFriendRequest(fr)" class="button display-inline-block borderColor-grey-l c-grey-l borderWidth-1 borderStyle-solid boxShadow-none paddingLeftRight-xs fontFamily-primary-bold" style="width: 60px; padding: 5px 0;">
+                                            Delete
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -138,3 +193,31 @@
     </div>
 </div>
 <!-- end add device -->
+
+<!-- friend (add) -->
+<div ng-show="vm.friends_modal._show" class="animated fadeIn _modal">
+    <div class="padding-xm">
+        <div class="animated zoomIn bg-white padding-xm boxShadow-card borderRadius-xs borderWidth-1 borderColor-foreground borderStyle-solid centered" style="min-width: 200px; max-width: 400px; height: 450px;">
+            <div class="fontFamily-primary-bold textTransform-uppercase position-relative">
+                users <span class="floatRight"><i ng-click="vm.friends_modal.close()" class="icon ion-close-circled c-grey fontSize-xm"></i>
+            </div>
+            <div class="marginTop-xxs">
+                <input ng-model="vm.searchUser" class="width-100 fontFamily-primary paddingTopBottom-s paddingLeftRight-s bg-foreground borderWidth-0" type="text" placeholder="Search" />
+            </div>
+            <div style="height: 350px; overflow-y: scroll;">
+                <div ng-repeat="user in vm.allUsers | filter:vm.searchUser" class="row margin-0 user-item paddingTopBottom-s paddingLeftRight-xs borderBottomWidth-1 borderColor-foreground borderStyle-solid ">
+                    <div class="floatLeft marginRight-xm">
+                        <div class="bg-grey-l" style="width: 50px; height: 50px; border-radius: 50%; background-position: center; background-size: cover; background-image: url('{{user.profile.profilePic}}');"></div>
+                    </div>
+                    <div class="floatLeft c-grey-d fontFamily-primary-bold">
+                        <span style="text-transform: capitalize;">{{user.profile.fname}}</span> <span style="text-transform: capitalize;">{{user.profile.lname}}</span></br>
+                        <button ng-click="vm.addNewFriend(user)" class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px;">
+                            Add friend
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end friend (add) -->

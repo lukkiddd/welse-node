@@ -27,6 +27,7 @@
 		});
 		
 		function logout() {
+			console.log('s');
 			Users.logout();
 			$state.go('login');
 		}

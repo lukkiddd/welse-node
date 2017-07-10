@@ -65,14 +65,18 @@ app.get('/api/ihealth/callback', function(req, res) {
 })
 
 app.get('/api/fitbit/auth', function (req,res) {
-  res.redirect(fitbit_client.getAuthorizeUrl('activity', 'https://welse-app.azurewebsites.net/api/fitbit/callback'));
+  res.redirect(fitbit_client.getAuthorizeUrl('activity sleep', 'https://welse-app.azurewebsites.net/api/fitbit/callback'));
 })
 
 app.get('/api/fitbit/callback', function (req, res) {
   fitbit_client.getAccessToken(req.query.code, 'https://welse-app.azurewebsites.net/api/fitbit/callback').then(function (result) {
     fitbit_client.get("/activities/steps/date/today/1y.json", result.access_token).then(function (results) {
-      var data = JSON.stringify(results[0]);
-      res.redirect('/#/fitbit/' + data);
+      fitbit_client.get('/sleep/date/today/1y.json', result.access_token).then(function (res) {
+        console.log(results);
+        console.log(res);
+        var data = JSON.stringify(results[0]);
+        res.redirect('/#/fitbit/' + data);
+      })
     });
   }).catch(function (error) {
     res.send(error);

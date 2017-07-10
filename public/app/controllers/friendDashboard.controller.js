@@ -5,9 +5,9 @@
 		.module('app')
 		.controller('friendDashboardCtrl', friendDashboardCtrl);
 
-	friendDashboardCtrl.$inject = ['$stateParams', 'Data'];
+	friendDashboardCtrl.$inject = ['$stateParams', 'Data', 'Users'];
 
-	function friendDashboardCtrl($stateParams, Data) {
+	function friendDashboardCtrl($stateParams, Data, Users) {
 		var vm = this;
 		
 		vm.uid = $stateParams.uid;
@@ -15,7 +15,9 @@
 		getData();
 
 		function getData() {
-			Data.get($stateParams)
+			vm.user = Users.get($stateParams);
+			Data
+				.get($stateParams)
 				.then(function(data) {
 					
 					vm.datas = data;

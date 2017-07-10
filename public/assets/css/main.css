@@ -12030,14 +12030,14 @@ a,
 	}
 	.navbar,
 	.content-view {
-		padding-left: 205px;
+		/*padding-left: 205px;*/
 	}
 	._modal {
 		width: 100vw;
 		height: 100vh;
 		background-color:rgba(255,255,255,.9);
 		z-index: 100;
-		padding-left: 205px;
+		/*padding-left: 205px;*/
 		padding-top: 5vh;
 		position: fixed;
 		top: 0;

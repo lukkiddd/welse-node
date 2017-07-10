@@ -42,6 +42,13 @@
 <div class="animated fadeIn">
     <div class="padding-xm">
         <div class="row margin-0">
+            <div class="col-xs-12 paddingLeft-0 xs-paddingRight-0 marginBottom-xm">
+                <span class="fontFamily-primary fontFamily-primary-bold fontSize-m textTransform-capitilze">
+                    {{vm.user.profile.fname + ' ' + vm.user.profile.lname}}
+                </span>
+            </div>
+        </div>
+        <div class="row margin-0">
             <div ui-sref="dashboard.data({key: key, uid: vm.uid})" ng-repeat="(key,data) in vm.datas" class="col-xs-12 col-sm-4 col-md-3 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
                 <div ng-class="{'opac-xm': !data[data.length-1].value, 'cursor-pointer': data[data.length-1].value, 'boxShadow-card': data[data.length-1].value}" class="data-box bg-white borderWidth-1 borderColor-foreground position-relative">
                     <div class="fontFamily-primary-bold textTransform-uppercase c-grey" style="max-width: 90%;">

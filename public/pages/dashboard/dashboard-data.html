@@ -14,6 +14,9 @@
         <div class="row margin-0">
             <div class="col-xs-12 paddingLeft-0 marginBottom-xm">
                 <div class="bg-white borderWidth-1 borderColor-foreground padding-xm position-relative" style="height: 400px;">
+                    <div ng-click="goal.toggle()" class="floatRight button button-primary">
+                        Set Goal
+                    </div>
                     <div class="fontFamily-primary-bold textTransform-uppercase c-grey">
                         {{ selectedData[selectedData.length - 1].name }} <span ng-show="selectedData[selectedData.length - 1].unit" class="fontSize-xxs fontFamily-primary c-grey-l"> / {{ selectedData[selectedData.length - 1].unit }}</span>
                     </div>
@@ -49,6 +52,29 @@
                                 {{ data.timestamp * 1000  | date:'medium'}}
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-show="goal._show" class="animated fadeIn _modal">
+    <div class="padding-xm">
+        <div class="animated zoomIn bg-white padding-xm boxShadow-card borderRadius-xs borderWidth-1 borderColor-foreground borderStyle-solid centered" style="min-width: 200px; max-width: 400px; max-height: 450px;">
+            <div class="fontFamily-primary-bold textTransform-uppercase position-relative">
+                Set Goal <span class="floatRight"><i ng-click="goal.close()" class="icon ion-close-circled c-grey fontSize-xm"></i>
+            </div>
+            <div class="marginTop-xxs">
+                <div class="input">
+                    <input type="text" ng-model="goal.value" placeholder="Target value (eg. 65)">
+                </div>
+                <div class="marginTop-xs textAlign-right">
+                    <div ng-click="goal.add()" class="button display-inline-block button-primary">
+                        Add
+                    </div>
+                    <div ng-click="goal.close()" class="button display-inline-block">
+                        Close
                     </div>
                 </div>
             </div>

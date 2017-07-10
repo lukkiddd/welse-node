@@ -27,7 +27,7 @@
 								value: val.value
 							});
 					});
-					// $state.go('dashboard.me');
+					$state.go('dashboard.me');
 				}
 			});
 		}
