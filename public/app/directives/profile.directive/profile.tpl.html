@@ -1,0 +1,39 @@
+<style>
+	.profile {
+		transition: transform .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+		position: fixed;
+	}
+	.profile.profileHidden {
+		transform: translate(280px, 0);
+	}
+	.profile.profileShow {
+		transform: translate(0, 0);
+	}
+	.profile-arrow {
+		position: absolute;
+    left: -30px;
+    padding: 10px;
+    background: #2a65ff;
+    font-size: 20px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    top: 72px;
+		color: #ffffff;
+		cursor: pointer;
+	}
+</style>
+<div ng-class="{'profileHidden': !profile._show, 'profileShow': profile._show}" class="profile bg-white position-fixed boxShadow-card" style="top: 0; right: 0; width: 280px; height: 100vh; padding-top: 55px; word-wrap: break-word;">
+		<div class="profile-arrow" ng-click="profile.toggle()">
+			<i ng-show="!profile._show" class="ion-chevron-left"></i>
+			<i ng-show="profile._show" class="ion-chevron-right"></i>
+		</div>
+		<div class="padding-xm">
+				<div class="textAlign-center marginBottom-xm">
+						<div class="bg-foreground marginBottom-xm" style="margin-left: auto; margin-right: auto; width: 120px; height: 120px; border-radius: 50%; background-position: center; background-size: cover; background-image: url('{{me.profile.profilePic}}')"></div>
+						<span style="text-transform: capitalize" class="fontFamily-primary-bold fontSize-xm">{{me.profile.fname}}</span> <span style="text-transform: capitalize"  class="fontFamily-primary-bold fontSize-xm">{{me.profile.lname}}</span>
+				</div>
+				<div ng-repeat="d in me.profile.data" class="fontFamily-primary lh-2 fontSize-s">
+						<span class="fontFamily-primary-bold textTransform-capitilze">{{d.name}}</span>: {{d.value}} {{d.unit}}
+				</div>
+		</div> 
+</div>

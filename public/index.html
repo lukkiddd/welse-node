@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <title>WELSE - INDEX</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="bg-foreground">
+
+  <div class="animated fadeIn" ui-view></div>
+
+  <!-- Vendors-->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script src="app/js/angular-ui-router.js"></script>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.2/lodash.min.js"></script>
+  <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <script src="app/js/highcharts-ng.js"></script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.min.js"></script>
+
+  <!-- App -->
+  <script src="app/app.module.js"></script>
+  <script src="app/app.run.js"></script>
+  <script src="app/app.config.js"></script>
+
+  <script src="app/controllers/dashboard.controller.js"></script>
+  <script src="app/controllers/dashboardData.controller.js"></script>
+  <script src="app/controllers/friends.controller.js"></script>
+  <script src="app/controllers/friendDashboard.controller.js"></script>
+  <script src="app/controllers/mainPage.controller.js"></script>
+  <script src="app/controllers/login.controller.js"></script>
+  <script src="app/controllers/ihealth.controller.js"></script>
+  <script src="app/controllers/fitbit.controller.js"></script>
+
+  <script src="app/services/Auth.service.js"></script>
+  <script src="app/services/Users.service.js"></script>
+  <script src="app/services/Data.service.js"></script>
+  <script src="app/services/PatientControl.service.js"></script>
+
+  <script src="app/directives/back-button.directive/back-button.directive.js"></script>
+  <script src="app/directives/profile.directive/profile.directive.js"></script>
+
+  <script src="https://cdn.rawgit.com/AngularClass/angular-websocket/v2.0.0/dist/angular-websocket.min.js"></script>
+
+</body>
+</html>
