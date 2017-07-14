@@ -1,5 +1,7 @@
 import express from 'express';
 import { User } from '../models';
+import config from '../config';
+import { tokenManage } from '../helper';
 var router = express.Router();
 /**
  * - Register
@@ -13,25 +15,35 @@ var router = express.Router();
  */
 
 
-router.post('/register', (req, res, next) => {
+router.post('/register', async (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
 	const fname = req.body.fname;
 	const lname = req.body.lname;
-	const profilePic = req.body.profilePic
-	
+	const profilePic = req.body.profilePic;
+
+	// Check exist
+	const checkExist = await User.findOne({ email });
+	if (checkExist) {
+		res.status(400).json({message: 'This email is already exist'});
+	}
+
 	var user = new User({
 		email: email,
 		password: password,
 		fname: fname,
 		lname: lname,
-		profilePic: profilePic,
-		// Token genereated
+		profilePic: profilePic
 	});
-	user.save( (error) => {
-		if (error) throw err;
-		res.json({status: 'OK'});
-	})
+	try {
+		const save = await user.save();
+		var tokenUser = {email:  email, password: password };
+		const token = tokenManage.generate(tokenUser);
+		res.json({ token, id: user._id });
+	} catch (err) {
+		console.log('Error: ' + err);
+		res.status(400).json(err);
+	}
 });
 
 router.post('/login', async (req, res, next) => {
@@ -44,8 +56,11 @@ router.post('/login', async (req, res, next) => {
 			let message = 'User not found!';
 		} else if(result) {
 			if(password === result.password) {
-				//generate token
-				res.json({ email: result.email, id: result._id });
+				const token = tokenManage.generate(result._doc);
+				result.token.push({ token });
+
+				const saveToken = await result.save();
+				res.json({ token , email: result.email, id: result._id });
 			} else {
 				message = 'Password not Match!';
 			}
@@ -58,7 +73,7 @@ router.post('/login', async (req, res, next) => {
 	}
 });
 
-router.post('/logout', async (req, res, next) => {
+router.all('/logout', async (req, res, next) => {
 	try {
 		const token = req.body.token || req.query.token;
 		const removeToken = await User.update({

@@ -22,7 +22,7 @@ router.get('/callback', (req, res) => {
       })
     });
   }).catch(function (error) {
-    res.send(error);
+    res.json(error);
   });
 })
 

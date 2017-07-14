@@ -13,11 +13,17 @@ import fitbit from './routes/fitbit';
 
 import config from './config';
 
+mongoose.Promise = global.Promise;
 mongoose.connect(config.DATABASE, {
-	useMongoClient: true
+  server: {socketOptions: {keepAlive: 1}}
 });
 
+
 var app = express();
+
+const connectToDB = async (eq, res, next) => {
+
+};
 
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -41,7 +47,7 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
-  res.render('error');
+  res.json(err);
 });
 
 module.exports = app;

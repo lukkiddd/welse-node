@@ -30,7 +30,6 @@ const userSchema = new Schema({
 		lowercase: true,
 		trim: true
 	},
-	token: [Schema.Types.Mixed],
 	profilePic: String,
 	data: [{
 		name: String,
@@ -38,7 +37,5 @@ const userSchema = new Schema({
 		value: String
 	}]
 });
-
-
 const User = mongoose.model('User', userSchema.plugin(timestamps));
 export { User };
