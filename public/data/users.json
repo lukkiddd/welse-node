@@ -1,0 +1,24 @@
+[{
+ "id": 			0,
+ "email": 		"patient.p@welse.com",
+ "password": 	"1234",
+ "type": 		"User",
+ "firstname": 	"ธัญญพร",
+ "lastname": 	"สุขใส"
+},
+{
+ "id": 			1,
+ "email": 		"staff.s@welse.com",
+ "password": 	"1234",
+ "type": 		"Staff",
+ "firstname": 	"พยาบาล",
+ "lastname": 	"ศรีจันทร์"
+},
+{
+ "id": 			2,
+ "email": 		"doctor.d@welse.com",
+ "password": 	"1234",
+ "type": 		"Doctor",
+ "firstname": 	"แพทยา",
+ "lastname": 	"มาไกล"
+}]
