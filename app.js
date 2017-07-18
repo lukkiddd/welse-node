@@ -13,6 +13,7 @@ import goals from './routes/goals';
 import friends from './routes/friends';
 import health from './routes/health';
 import notification from './routes/notification';
+import fitbit from './routes/fitbit';
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/api/fitbit', fitbit);
 app.use('/api/db/users', users);
 app.use('/api/db/goals', goals);
 app.use('/api/db/friends', friends);
