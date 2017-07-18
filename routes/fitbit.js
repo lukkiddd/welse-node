@@ -10,11 +10,11 @@ const router = express.Router();
 const client = new FitbitApiClient(config.CLIENT_ID, config.CLIENT_SECRET)
 
 router.get('/authorize', (req, res) => {
-	res.redirect(client.getAuthorizeUrl('activity heartrate sleep', 'https://welse-app.azurewebsites.net/api/fitbit/callback'))
+	res.redirect(client.getAuthorizeUrl('activity heartrate sleep', 'https://welse-platform.azurewebsites.net/api/fitbit/callback'))
 });
 
 router.get('/callback', (req, res) => {
-	client.getAccessToken(req.query.code, 'https://welse-app.azurewebsites.net/api/fitbit/callback')
+	client.getAccessToken(req.query.code, 'https://welse-platform.azurewebsites.net/api/fitbit/callback')
 		.then( (result) => {
 			client.get('/', result.access_token)
 				.then( (results) => {
@@ -26,3 +26,5 @@ router.get('/callback', (req, res) => {
 			res.send(error);
 		})
 })
+
+export default router;
