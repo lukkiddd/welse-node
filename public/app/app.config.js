@@ -34,46 +34,33 @@
 
 		var dashboardData = {
 			name: 'dashboard.data',
-			url: '/data/:uid/:key',
+			url: '/data/:key',
 			templateUrl: 'pages/dashboard/dashboard-data.html',
 			controller: 'dashboardDataCtrl'
 		}
 
-		var friends = {
-			name: 'dashboard.friends',
-			url: '/friends',
-			templateUrl: 'pages/dashboard/friends.html',
-			controller: 'friendsCtrl',
-			controllerAs: 'vm'
-		};
 
 		var friendsDashboard = {
-			name: 'dashboard.friendsDashbaord',
-			url: '/friend/:uid',
+			name: 'dashboard.friend',
+			url: '/friend/:id',
 			templateUrl: 'pages/dashboard/friend-dashboard.html',
 			controller: 'friendDashboardCtrl',
 			controllerAs: 'vm'
 		}
-
-		var ihealth = {
-			name: 'ihealth',
-			url: '/ihealth/:accessToken/:userId',
-			controller: 'ihealthCtrl'
+		var friendDashboardData = {
+			name: 'dashboard.friendData',
+			url: '/friend/:id/data/:key',
+			templateUrl: 'pages/dashboard/friend-dashboard-data.html',
+			controller: 'friendDashboardDataCtrl',
+			controllerAs: 'vm'
 		}
 
-		var fitbit = {
-			name: 'fitbit',
-			url: '/fitbit/:data',
-			controller: 'fitbitCtrl'
-		}
 
 		$stateProvider.state(dashboard);
 		$stateProvider.state(dashboardMe);
 		$stateProvider.state(dashboardData);
-		$stateProvider.state(friends);
 		$stateProvider.state(friendsDashboard);
-		$stateProvider.state(ihealth);
-		$stateProvider.state(fitbit);
+		$stateProvider.state(friendDashboardData);
 		$stateProvider.state(login);
 		$urlRouterProvider.otherwise("/login");
 	}

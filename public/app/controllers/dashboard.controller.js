@@ -5,9 +5,9 @@
 			.module('app')
 			.controller('dashboardCtrl', dashboardCtrl);
 
-	dashboardCtrl.$inject = ['$state', '$interval', 'Users', 'Friend'];
+	dashboardCtrl.$inject = ['$state', '$timeout', '$interval', 'Users', 'Friend', 'Health'];
 
-	function dashboardCtrl($state, $interval, Users, Friend) {
+	function dashboardCtrl($state, $timeout, $interval, Users, Friend, Health) {
 		var vm = this;
 
 		vm.devices_modal = {
@@ -31,8 +31,12 @@
 			_show: false,
 		}
 
-		vm.me = {};
+		vm.me = false;
+		vm.health = false;
 		vm.follow = follow;
+		vm.confirm = confirm;
+		vm.decline = decline;
+		vm.unfollow = unfollow;
 		
 		// vm.addDevice = addDevice;
 		// vm.closeAddDevice = closeAddDevice;
@@ -60,7 +64,9 @@
 		isAuth();
 		function isAuth() {
 			if(Users.isLogin()) {
-				getProfile();
+				// $interval(function () {
+					getProfile();
+				// }, 3000);
 			}
 		}
 
@@ -70,6 +76,10 @@
 				.then(function (data) {
 					vm.me = data;
 					getAllUsers();
+					getHealth();
+				})
+				.catch(function () {
+					getProfile()
 				});
 		}
 
@@ -79,6 +89,22 @@
 				.then(function (data) {
 					vm.allUsers = data;
 				})
+				.catch(function () {
+					getAllUsers()
+				});
+		}
+
+		function getHealth() {
+			Health
+				.getHealth()
+				.then(function (data) {
+					console.log(data);
+					vm.health = data;
+				})
+				.catch(function (error) {
+					console.log(error);
+					getHealth();
+				});
 		}
 
 		function follow(user) {
@@ -87,10 +113,55 @@
 				.follow(user._id)
 				.then(function (data) {
 					user.loading = false;
+					vm.friends_modal.close();
+					getProfile();
 				})
 				.catch(function (err) {
 					user.loading = false;
+					follow(user)
 				})
+		}
+
+		function confirm(user) {
+			user.loading = true;
+			Friend
+				.confirm(user._id)
+				.then(function (data) {
+					user.loading = false;
+					getProfile();
+				})
+				.catch(function (err) {
+					user.loading = false;
+					confirm(user);
+				});
+		}
+
+		function decline(user) {
+			user.loading = true;
+			Friend
+				.decline(user._id)
+				.then(function (data) {
+					user.loading = false;
+					getProfile();
+				})
+				.catch(function (err) {
+					user.loading = false;
+					decline(user);
+				});
+		}
+
+		function unfollow(user) {
+			user.loading = true;
+			Friend
+				.unfollow(user._id)
+				.then(function (data) {
+					user.loading = false;
+					getProfile();
+				})
+				.catch(function (err) {
+					user.loading = false;
+					unfollow(user);
+				});
 		}
 
 

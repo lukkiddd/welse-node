@@ -12,7 +12,7 @@ import users from './routes/users';
 import goals from './routes/goals';
 import friends from './routes/friends';
 import health from './routes/health';
-// import notification from './routes/notification';
+import notification from './routes/notification';
 
 var app = express();
 
@@ -21,6 +21,7 @@ mongoose.connect(config.DATABASE, {
   server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
   replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }
 });
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,7 +40,7 @@ app.use('/api/db/users', users);
 app.use('/api/db/goals', goals);
 app.use('/api/db/friends', friends);
 app.use('/api/db/health', health);
-// app.use('/api/db/notification', notification);
+app.use('/api/db/notification', notification);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

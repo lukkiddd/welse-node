@@ -6,13 +6,15 @@ var Schema = mongoose.Schema;
 var healthSchema = new Schema({
 	chartType: String,
 	name: String,
-	timestamp: Date,
+	timestamp: String,
 	unit: String,
 	value: Number,
 	max: Number,
+	type: String,
+	isDanger: Boolean,
 	_user: String
 });
 
 var Health = mongoose.model('Health', healthSchema.plugin(timestamps));
 
-export default Health;
+export { Health };

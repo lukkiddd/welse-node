@@ -1,34 +1,90 @@
+<style>
+    .box-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    min-height: 300px;
+  }
+  .load {
+    -webkit-animation:spin .5s linear infinite;
+    -moz-animation:spin .5s linear infinite;
+    animation:spin .5s linear infinite;
+    color: #aaaaaa;
+  }
+  @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+  @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+  @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+    .chart-box {
+      height: 150px;
+  }
+  .data-box {
+      height: 290px;
+      padding: 20px;
+  }
+  .status-icon div {
+      top: 22px;
+      right: 20px;
+  }
+  .button-loading {
+    border: 1px solid #cccccc !important;
+    background-color: #cccccc !important;
+    color: #ffffff !important;
+    min-width: 60px;
+  }
+  @media screen and (max-width: 991px) {
+      .chart-box {
+          height: 70px;
+          position: absolute;
+          width: 50%;
+          right: 0;
+          bottom: 0;
+      }
+      .data-box:not(.friends-box) {
+          height: 130px;
+          padding: 10px;
+      }
+      .status-icon div {
+          top: 12px;
+      }
+  }
+  @media screen and (max-width: 768px) {
+      .xs-paddingRight-0 {
+          padding-right: 0 !important;
+      }
+      .button-add-wrapper {
+          width: 100%;
+      }
+      .button-add {
+          width: 100% !important;
+      }
+  }
+</style>
 <!-- navbar -->
 <div class="navbar posFixTL bg-white width-100 zIndex-s borderBottomWidth-1 borderColor-foreground borderStyle-solid">
-		<div class="display-flex" style="align-items:center; height: 55px;">
-
-				<!-- <back-button></back-button> -->
-
-				<div style="flex: 1">
-						<div class="fontFamily-primary-bold fontSize-s textTransform-capitilze">
-							dashboard
-						</div>
-				</div>
-				<div style="flex: .3; align-items: center; justify-content: flex-end;" class="display-flex">
-						<div ng-click="logout()" class="c-grey fontSize-xm textAlign-right position-relative marginRight-s">
-							<i class="ion-log-out"></i>
-						</div>					
-						<div class="textAlign-right position-relative marginRight-s">
-								<i ng-click="showNoti = !showNoti" ng-class="{'c-grey': notiUnread, 'c-grey-l': !notiUnread}" class="icon ion-android-notifications fontSize-xm c-grey" style="margin-top:-2"></i>
-								<span ng-show="notiUnread" class="position-absolute bg-danger" style="width: 8px; height: 8px; border-radius: 50%; top: 0; right: -5px;"></span>
-								<div ng-show="showNoti" style="position: absolute; right: 0; width: 300px; height: 250px; overflow-y: scroll" class="animated fadeIn borderColor-foreground borderStyle-solid borderWidth-1 notificationsBox bg-white boxShadow-card textAlign-left">
-									<div ng-click="readNoti(noti)" ng-class="{'bg-foreground': !noti.isRead }" ng-repeat="noti in notifications | orderBy:'-'" class="bg-foreground-d--hover cursor-pointer notification-item fontFamily-primary padding-s borderBottomWidth-1 borderColor-grey-l borderStyle-solid">
-										<span class="fontFamily-primary-bold">{{noti.name}}</span>'s {{noti.data.name}} is <span class="c-danger textTransform-capitilze">{{noti.data.status}}</span> </br>
-										<span class="fontFamily-primary fontSize-xs c-grey">{{noti.timestamp * 1000 | date: 'MMM, M hh:mm'}}</span>
-									</div>
-								</div>
-						</div>
-						<!-- <div class="textAlign-right marginLeft-xm marginRight-s">
-							<div ng-click="profile.toggle()" class="bg-grey-l cursor-pointer" style="width: 40px; height: 40px; border-radius: 50%; background-position: center; background-size: cover; background-image: url('{{me.profile.profilePic}}')"></div>
-						</div> -->
-				</div>
-				<!-- <profile></profile> -->
-		</div>
+  <div class="row margin-0" style="min-height: 25px;">
+    <div class="col-xs-6 lh-3">
+      <back-button></back-button> 
+      <div class="display-inline-block fontFamily-primary-bold fontSize-s textTransform-capitilze" style="vertical-align: bottom">
+        dashboard
+      </div>
+    </div>
+    <div class="col-xs-6 textAlign-right" style="line-height: 2.5">		
+      <div class="textAlign-right position-relative marginRight-s display-inline-block">
+        <i ng-click="showNoti = !showNoti" ng-class="{'c-grey': notiUnread.length <= 0, 'c-grey-l':  notiUnread.length > 0}" class="icon ion-android-notifications fontSize-xm c-grey" style="margin-top:-2"></i>
+        <span ng-show="notiUnread.length >= 0" class="position-absolute bg-danger" style="width: 8px; height: 8px; border-radius: 50%; top: 13px; right: -2px; border: 1px solid #fff;"></span>
+        <div ng-show="showNoti" style="position: absolute; right: 0; width: 300px; height: 250px; overflow-y: scroll" class="animated fadeIn borderColor-foreground borderStyle-solid borderWidth-1 notificationsBox bg-white boxShadow-card textAlign-left">
+          <div ng-click="readNoti(noti)" ng-class="{'bg-foreground': !noti.read }" ng-repeat="noti in notifications | orderBy:'-'" class="bg-foreground-d--hover cursor-pointer notification-item fontFamily-primary padding-s borderBottomWidth-1 borderColor-grey-l borderStyle-solid lh-1">
+            <span class="fontFamily-primary-bold textTransform-capitilze">{{noti._patient.fname}}</span>'s {{noti.name}} <span class="c-danger">{{noti.message}}</span> </br>
+            <span class="fontFamily-primary fontSize-xs c-grey">{{noti.createdAt | date: 'MMM, M hh:mm'}}</span>
+          </div>
+        </div>
+      </div>
+      <div ng-click="logout()" class="c-grey fontSize-xm textAlign-right position-relative display-inline-block">
+        <i class="ion-log-out"></i>
+      </div>			
+    </div>
+  </div>
 </div>
 <!-- end navbar -->
 

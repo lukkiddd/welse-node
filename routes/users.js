@@ -68,11 +68,37 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
+router.post('/profile/user', async (req, res, next) => {
+  const _id = req.body._id;
+  try {
+    const user = await User
+                        .findOne({ _id })
+                        .populate('following')
+                        .populate('follower')
+                        .populate('pending')
+                        .populate('request');
+    if (user) {
+      user.password = undefined;
+      res.json(user);
+    } else {
+      res.status(400).json({ message: "No user found!"});
+    }
+  } catch (err) {
+    console.log('Error: ' + err);
+    res.status(400).json(err);
+  }
+});
+
 router.post('/profile', async (req, res, next) => {
   const token = req.body.token;
   try {
     const tokenUser = await tokenManage.verify(token);
-    const user = await User.findOne({ _id: tokenUser._id }).populate('following').populate('follower');
+    const user = await User
+                          .findOne({ _id: tokenUser._id })
+                          .populate('following')
+                          .populate('follower')
+                          .populate('pending')
+                          .populate('request');
     if(user) {
       user.password = undefined;
       res.json(user);
@@ -112,7 +138,12 @@ router.post('/', async (req, res, next) => {
   const token = req.body.token;
   try {
     const tokenUser = await tokenManage.verify(token);
-    const result = await User.find({ _id: { $ne: tokenUser._id }}).populate('following').populate('follower');
+    const result = await User
+                          .find({ _id: { $ne: tokenUser._id }})
+                          .populate('following')
+                          .populate('follower')
+                          .populate('pending')
+                          .populate('request');
     res.json(result);
   } catch (err) {
     console.log('Error: ', err);

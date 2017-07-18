@@ -19,7 +19,6 @@
     function backButtonCtrl($rootScope, $state, $scope) {
         $scope.goBack = goBack;
 
-        console.log($state);
         function goBack() {
             $state.go($rootScope.previousState.name, {uid: $state.params.uid});
         }

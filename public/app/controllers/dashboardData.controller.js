@@ -5,9 +5,9 @@
 		.module('app')
 		.controller('dashboardDataCtrl', dashboardDataCtrl);
 
-		dashboardDataCtrl.$inject = ['$scope', '$stateParams', 'Auth', 'Data', '$firebaseObject'];
+		dashboardDataCtrl.$inject = ['$scope', '$stateParams', 'Health', 'Goal'];
 
-		function dashboardDataCtrl($scope, $stateParams, Auth, Data, $firebaseObject) {
+		function dashboardDataCtrl($scope, $stateParams, Health, Goal) {
 			var vm = this;
 
 			$scope.goal = {
@@ -21,69 +21,74 @@
 					this._show = false;
 				},
 				add: function () {
-					if($scope.uid && $scope.selectedData[0].name) {
-						console.log(this.value);
-						firebase
-							.database()
-							.ref('goal')
-							.child($scope.uid)
-							.child($scope.selectedData[0].name)
-							.set({ value: parseInt(this.value) })
-							.then(function () {
-								$scope.goal.value = '';
-								location.reload();
-							})
-							.catch(function (err) {
-								console.log(err);
-							});
+					let goalData ={
+						name: $scope.key,
+						value: $scope.goal._value
 					}
+					$scope.goal._loading = true;
+					Goal
+						.setGoal(goalData)
+						.then(function (data) {
+							$scope.goal._loading = false;
+							$scope.goal.value = $scope.goal._value;
+							$scope.goal.close();
+							$scope.chartData.yAxis.plotLines[0].value = $scope.goal.value;
+						})
+						.catch(function (error) {
+							$scope.goal._loading = false;
+							$scope.goal.add();
+						})
 				},
+				_loading: false,
 				_show: false,
-				value: ''
+				value: '',
+				_value: ''
 			}
 
 			$scope.key = $stateParams.key;
-			$scope.uid = $stateParams.uid;
-			$scope.selectedData = [];
+			$scope.selectedData = false;
+			$scope.chartData = false;
 			getData();
 
 			function getData() {
-				Data
-					.get($stateParams)
+				Health
+					.getHealth()
 					.then(function (data) {
-						$scope.selectedData = data[$scope.key]
-						var ref = firebase
-												.database()
-												.ref('goal')
-												.child($scope.uid)
-												.child($scope.selectedData[0].name);
-						var obj = $firebaseObject(ref);
-						obj
-							.$loaded()
-							.then(function (data) {
-								$scope.selectedDataGoal = data.value;
-								drawChart($scope.selectedData, $scope.selectedDataGoal);
-							})
+						$scope.selectedData = data[$scope.key];
+						getGoal();
+					})
+					.catch(function () {
+						if(!$scope.selectedData) {
+							getData();
+						}
 					});
 			}
 			
-			function drawChart(data, goal) {
-				goal = parseInt(goal);
-				console.log(goal);
-				var vals = _.map(data, function (val) {
-					if(val.value == "Good") {
-						return 1;
-					} else if (val.value == "Bad") {
-						return 0;
-					} else if (val.value == null) {
-						return 0;
-					}
-					
-					return parseFloat(val.value);
-				});
-				
+			function getGoal() {
+				Goal
+					.getGoal()
+					.then(function (data) {
+						var key = $scope.key.toLowerCase();
+						if(data[key]) {
+							$scope.goal.value = data[key].value;
+						}
+						drawChart($scope.selectedData, $scope.goal.value);
+					})
+					.catch(function (err) {
+						if(!$scope.chartData) {
+							getGoal();
+						}
+					})
+			}
+			
+			function drawChart(data, goalValue) {
+				var goal = parseInt(goalValue) || data[0].max;
+				var plotLinesText = (parseInt(goalValue)) ? 'Goal' : 'Danger'
 				var unit = data[0].unit || '';
-
+				var vals = _.map(data, function (val) {
+					return val.value;
+				});
+				vals = vals.reverse();
 				unit = unit.toUpperCase();
 
 				$scope.chartData = {};
@@ -96,38 +101,27 @@
 					},
 					xAxis: {
 						visible: false,
+						title: '',
 					},
 					yAxis: {
-						plotBands: [{
-            from: 30,
-            to: vals[0] * 2,
-            color: 'rgba(68, 170, 213, 0.1)',
-            label: {
-                text: 'Normal',
-                style: {
-                    color: '#606060'
-                }
-							}
-						}]
+						title: '',
+						plotLines: [{
+								value: goal,
+								color: '#FF2A2A',
+								width: 2,
+								label: {
+										text: plotLinesText,
+										style: {
+												color: '#FF2A2A'
+										}
+								}
+						}],
 					},
 					title: {
 						text: ''
 					},
 					series: [{
-						name: 'Goal',
-						type: 'line',
-						data: [ [0, goal] , [vals.length, goal] ],
-						marker: {
-								enabled: false
-						},
-						states: {
-								hover: {
-										lineWidth: 0
-								}
-						},
-						enableMouseTracking: false
-					}, {
-						name: 'Value',
+						name: '',
 						type: data[0].chartType,
 						data: vals,
 						showInLegend: false,
@@ -138,7 +132,8 @@
 						borderWidth: 0,
 						tooltip: {
 							headerFormat: '',
-							pointFormat: '{series.name}: <b>{point.y}</b><br/>',
+							valuePrefix: `${data[0].name}: `,
+							pointFormat: '<b>{point.y}</b><br/>',
 							valueSuffix: ` ${unit}`,
 						},
 					}],

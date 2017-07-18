@@ -5,14 +5,13 @@
 			.module('app')
 			.controller('loginCtrl', loginCtrl);
 
-	loginCtrl.$inject = ['$state', 'Users'];
+	loginCtrl.$inject = ['$scope', '$state', 'Users'];
 
-	function loginCtrl($state, Users) {
+	function loginCtrl($scope, $state, Users) {
 		var vm = this;
 
-		vm.errorMessage = "";
-		vm.login = login;
-		vm.loading = false;
+		$scope.login = login;
+		$scope.loading = false;
 
 		isAuth();
 
@@ -23,11 +22,14 @@
 		}
 
 		function login(userData) {
-			vm.loading = true;
+			$scope.loading = true;
 			Users
 				.login(userData)
 				.then(function () {
 					$state.go('dashboard.me');
+				})
+				.catch(function () {
+					login(userData);
 				});
 		}
 

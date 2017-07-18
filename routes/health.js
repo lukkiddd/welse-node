@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import _ from 'lodash';
 import { tokenManage } from '../helper';
-import { User, Health, Friend } from '../models';
+import { User, Health, Notification } from '../models';
 var router = express.Router();
 /**
  * push health data
@@ -22,28 +22,32 @@ router.post('/push', async (req, res, next) => {
 				unit: data.unit,
 				value: data.value,
 				max: data.max,
+				type: data.type || 'blood',
+				isDanger: (data.value > data.max) ? true : false,
 				_user: user._id
 			});
 			const result = await health.save();
-			if(health.value > health.max) {
-				const notification = new Notification({
-					_user: user._id,
-					message: user.fname + '\s ' + data.name + ' is out of bound.',
-					read: false
-				});
-				const myNoti = await notification.save();
-				const friends = await Friend.find({ _user: user._id });
-				_.forEach(friends, async (friend) => {
-					let noti = new Notification({
-						_user: friend.friend._id,
-						message: user.fname + '\s ' + data.name + ' is out of bound.',
+			if (data.value > data.max) {
+				let notification = new Notification({
+						message: "is out of bound",
+						name: data.name,
+						_patient: user._id,
+						_user: user._id,
 						read: false
 					});
-					let friendNoti = await noti.save();
+				let resultNotification = await notification.save();
+				_.forEach(user.followers, async (follower) => {
+					let notification = new Notification({
+						message: "is out of bound",
+						name: data.name,
+						_patient: user._id,
+						_user: follower,
+						read: false
+					});
+					let resultNotification = await notification.save();
 				});
-				
 			}
-			if (friendNoti && myNoti) {
+			if (result) {
 				res.json({ message: "success" });
 			} else {
 				res.status(400).json({ message: "error, data cannot be saved" });
@@ -57,13 +61,50 @@ router.post('/push', async (req, res, next) => {
 	}
 });
 
-// Test
 router.post('/', async (req, res, next) => {
 	const token = req.body.token;
 	try {
 		const tokenUser = await tokenManage.verify(token);
-		const health = await Health.find({ _user: tokenUser._id });
-		console.log(health);
+		const health = await Health.find({ _user: tokenUser._id }).sort({ createdAt: -1});
+		let healthRetval = {};
+		_.forEach(health, (val) => {
+			if (!healthRetval[val.name]) {
+				healthRetval[val.name] = [];
+			}
+			healthRetval[val.name].push(val);
+		})
+		res.json(healthRetval);
+	} catch (err) {
+		console.log('Error: ' + err);
+		res.status(400).json(err);
+	}
+})
+
+router.post('/user', async (req, res, next) => {
+	const _id = req.body._id;
+	try {
+		const health = await Health.find({ _user: _id }).sort({ createdAt: -1 });
+		let healthRetval = {};
+		_.forEach(health, (val) => {
+			if (!healthRetval[val.name]) {
+				healthRetval[val.name] = [];
+			}
+			healthRetval[val.name].push(val);
+		})
+		res.json(healthRetval);
+	} catch (err) {
+		console.log('Error: ' + err);
+		res.status(400).json(err);
+	}
+});
+
+
+// remove all
+router.delete('/', async (req, res, next) => {
+	const token = req.body.token;
+	try {
+		const tokenUser = await tokenManage.verify(token);
+		const health = await Health.remove({ _user: tokenUser._id });
 		res.json(health);
 	} catch (err) {
 		console.log('Error: ' + err);

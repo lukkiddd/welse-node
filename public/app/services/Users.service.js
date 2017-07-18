@@ -17,6 +17,7 @@
 			getProfile: getProfile, //pass
 			editProfile: editProfile,
 			getUsers: getUsers, //pass
+			getProfileUser: getProfileUser,
 			isLogin: isLogin //pass
 		}
 		return userService;
@@ -33,12 +34,12 @@
 			$http
 				.post(BASE_URL + '/register', data)
 				.then(function (data) {
-					console.log(data.data);
+					// console.log(data.data);
 					defer.resolve(data.data);
 					$cookieStore.put('token', data.data.token);
 				})
 				.catch(function (err) {
-					console.log(err);
+					// console.log(err);
 					defer.reject(err);
 				});
 			return defer.promise;
@@ -53,11 +54,11 @@
 			$http
 				.post(BASE_URL + '/login', data)
 				.then(function (data) {
-					defer.resolve(data.data);
 					$cookieStore.put('token', data.data.token);
+					defer.resolve(data.data);
 				})
 				.catch(function (err) {
-					console.log(err);
+					// console.log(err);
 					defer.reject(err);
 				});
 			return defer.promise;
@@ -66,7 +67,7 @@
 		function logout() {
 			var defer = $q.defer();
 			
-			if($cookieStore.get('token')) {
+			if($cookieStore.get('token').replace(/["]+/g,'')) {
 				$cookieStore.remove('token');
 				defer.resolve({message: 'success'});
 			} else {
@@ -78,8 +79,11 @@
 
 		function getProfile() {
 			var defer = $q.defer();
-			var token = $cookieStore.get('token');
-
+			var cookie =  $cookieStore.get('token');
+			if(cookie) {
+				cookie = cookie.replace(/["]+/g,'')
+			}
+			var token = cookie
 			if(!token) {
 				defer.reject({ message: "Token not found!"});
 			}
@@ -90,7 +94,7 @@
 					defer.resolve(data.data);
 				})
 				.catch(function (err) {
-					console.log(err);
+					// console.log(err);
 					defer.reject(err);
 				});
 			return defer.promise;
@@ -98,19 +102,23 @@
 
 		function editProfile(userId, profile_key, profile_value) {
 			var defer = $q.defer();
+			var cookie =  $cookieStore.get('token');
+			if(cookie) {
+				cookie = cookie.replace(/["]+/g,'')
+			}
 			var data = {
-				token: $cookieStore.get('token'),
+				token: cookie,
 				profile_key: profile_key,
 				profile_value: profile_value
 			}
 			$http
 				.post(BASE_URL + '/profile/edit', data)
 				.then(function (data) {
-					console.log(data.data);
+					// console.log(data.data);
 					defer.resolve(data.data);
 				})
 				.catch(function (err) {
-					console.log(err);
+					// console.log(err);
 					defer.reject(err);
 				});
 			return defer.promise;
@@ -118,7 +126,11 @@
 
 		function getUsers() {
 			var defer = $q.defer();
-			var token = $cookieStore.get('token');
+			var cookie =  $cookieStore.get('token');
+			if(cookie) {
+				cookie = cookie.replace(/["]+/g,'')
+			}
+			var token = cookie;
 
 			if(!token) {
 				defer.reject({ message: "Token not found!"});
@@ -130,14 +142,37 @@
 					defer.resolve(data.data);
 				})
 				.catch(function (err) {
-					console.log(err);
+					// console.log(err);
+					defer.reject(err);
+				});
+			return defer.promise;
+		}
+
+		function getProfileUser(id) {
+			var defer = $q.defer();
+			var data = {
+				_id: id
+			}
+
+			$http
+				.post(BASE_URL + '/profile/user', data)
+				.then(function (data) {
+					// console.log(data.data);
+					defer.resolve(data.data);
+				})
+				.catch(function (err) {
+					// console.log(err);
 					defer.reject(err);
 				});
 			return defer.promise;
 		}
 
 		function isLogin() {
-			var token = $cookieStore.get('token');
+			var cookie =  $cookieStore.get('token');
+			if(cookie) {
+				cookie = cookie.replace(/["]+/g,'')
+			}
+			var token = cookie;
 			if(token) {
 				return true;
 			} else {

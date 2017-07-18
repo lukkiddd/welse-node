@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import _ from 'lodash';
 import { tokenManage } from '../helper';
 import { Friend, User } from '../models';
 var router = express.Router();
@@ -16,32 +17,17 @@ router.post('/follow', async (req, res, next) => {
 	const follow_id = req.body.follow_id;
 	try {
 		const tokenUser = await tokenManage.verify(token);
-		const isFriend = await Friend.findOne({ _user: tokenUser._id, friend: follow_id });
-		if (!isFriend) {
-			const friend = new Friend({
-				friend: follow_id,
-				_user: tokenUser._id,
-				isRequest: true
-			});
-			const result = await friend.save();
-
-			const user = await User.findOne({ _id: tokenUser._id });
-			const friendUser = await User.findOne({ _id: follow_id });
-			let userClone = _.cloneDeep(user);
-			let friendUserClone = _.cloneDeep(friendUser);
-			userClone.password = undefined;
-			userClone.follower = undefined;
-			userClone.follwing = undefined;
-			friendUserClone.password = undefined;
-			friendUserClone.follower = undefined;
-			friendUserClone.follwing = undefined;
-
-			user.following.push(friendUserClone);
-			friendUser.follower.push(userClone);
-			const userResult = await user.save();
-			const friendUserResult = await friendUser.save();
-			
-			if (userResult && friendUserResult) {
+		const user = await User.findOne({ _id: tokenUser._id});
+		const isFollow = _.find(user.pending, function (val) {
+			return val == follow_id
+		});
+		if(!isFollow) {
+			const friend = await User.findOne({ _id: follow_id });
+			user.pending.push(follow_id);
+			friend.request.push(tokenUser._id);
+			const result = await user.save();
+			const resultFriend = await friend.save();
+			if (result && resultFriend) {
 				res.json({ message: "success" });
 			} else {
 				res.status(400).json({ message: "error" });
@@ -60,16 +46,23 @@ router.post('/unfollow', async (req, res, next) => {
 	const follow_id = req.body.follow_id;
 	try {
 		const tokenUser = await tokenManage.verify(token);
-		const isFriend = await Friend.findOne({ _user: tokenUser._id, friend: follow_id });
-		if (isFriend) {
-			const result = await Friend.remove({ _user: tokenUser._id, friend: follow_id });
-			if (result) {
+		const user = await User.findOne({ _id: tokenUser._id});
+		const isFollow = _.find(user.following, function (val) {
+			return val == follow_id
+		});
+		if(isFollow) {
+			const friend = await User.findOne({ _id: follow_id });
+			user.following.pull(follow_id);
+			friend.follower.pull(tokenUser._id);
+			const result = await user.save();
+			const resultFriend = await friend.save();
+			if (result && resultFriend) {
 				res.json({ message: "success" });
 			} else {
 				res.status(400).json({ message: "error" });
 			}
-		} else {
-			res.status(400).json({ message: "This user have been unfollowed" });
+		} else{
+			res.status(400).json({ message: "This user have been followed" });
 		}
 	} catch (err) {
 		console.log('Error: ' + err);
@@ -82,21 +75,25 @@ router.post('/confirm', async (req, res, next) => {
 	const follow_id = req.body.follow_id;
 	try {
 		const tokenUser = await tokenManage.verify(token);
-		const isFriend = await Friend.findOne({ _user: tokenUser._id, friend: follow_id });
-		if (isFriend) {
-			isFriend.isRequest = false;
-			const friend = new Friend({
-				_user: follow_id,
-				friend: tokenUser._id,
-				isRequest: false
-			});
-			const friendResult = await friend.save();
-			const result = await isFriend.save();
-			if (result) {
+		const user = await User.findOne({ _id: tokenUser._id});
+		const isRequest = _.find(user.request, function (val) {
+			return val == follow_id
+		});
+		if(isRequest) {
+			const friend = await User.findOne({ _id: follow_id });
+			user.request.pull(follow_id);
+			user.follower.push(follow_id);
+			friend.pending.pull(tokenUser._id);
+			friend.following.push(tokenUser._id);
+			const result = await user.save();
+			const resultFriend = await friend.save();
+			if (result && resultFriend) {
 				res.json({ message: "success" });
 			} else {
 				res.status(400).json({ message: "error" });
 			}
+		} else{
+			res.status(400).json({ message: "This user have been followed" });
 		}
 	} catch (err) {
 		console.log('Error: ' + err);
@@ -109,16 +106,23 @@ router.post('/decline', async (req, res, next) => {
 	const follow_id = req.body.follow_id;
 	try {
 		const tokenUser = await tokenManage.verify(token);
-		const isFriend = await Friend.findOne({ _user: tokenUser._id, friend: follow_id, isRequest: true });
-		if (isFriend) {
-			const result = await Friend.remove({ _user: tokenUser._id, friend: follow_id, isRequest: true });
-			if (result) {
+		const user = await User.findOne({ _id: tokenUser._id});
+		const isRequest = _.find(user.request, function (val) {
+			return val == follow_id
+		});
+		if(isRequest) {
+			const friend = await User.findOne({ _id: follow_id });
+			user.request.pull(follow_id);
+			friend.pending.pull(tokenUser._id);
+			const result = await user.save();
+			const resultFriend = await friend.save();
+			if (result && resultFriend) {
 				res.json({ message: "success" });
 			} else {
 				res.status(400).json({ message: "error" });
 			}
-		} else {
-			res.status(400).json({ message: "This user have been declined request" });
+		} else{
+			res.status(400).json({ message: "This user have been followed" });
 		}
 	} catch (err) {
 		console.log('Error: ' + err);

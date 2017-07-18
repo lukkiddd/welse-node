@@ -7,8 +7,14 @@ const notificationSchema = new Schema({
 	message: {
 		type: String
 	},
-	_user: {
+	name: {
 		type: String
+	},
+	_user: {
+		type: Schema.Types.ObjectId, ref: 'User'
+	},
+	_patient: {
+		type: Schema.Types.ObjectId, ref: 'User'
 	},
 	read: Boolean
 });

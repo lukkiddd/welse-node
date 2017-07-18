@@ -1,87 +1,93 @@
-<style>
-    .chart-box {
-        height: 150px;
-    }
-    .data-box {
-        height: 290px;
-        padding: 20px;
-    }
-    .status-icon div {
-        top: 22px;
-        right: 20px;
-    }
-    @media screen and (max-width: 991px) {
-        .chart-box {
-            height: 70px;
-            position: absolute;
-            width: 50%;
-            right: 0;
-            bottom: 0;
-        }
-        .data-box {
-            height: 130px;
-            padding: 10px;
-        }
-        .status-icon div {
-            top: 12px;
-        }
-    }
-    @media screen and (max-width: 768px) {
-        .xs-paddingRight-0 {
-            padding-right: 0 !important;
-        }
-        .button-add-wrapper {
-            width: 100%;
-        }
-        .button-add {
-            width: 100% !important;
-        }
-    }
-</style>
 
 <div class="animated fadeIn">
-    <div class="padding-xm">
-        <div class="row margin-0">
-            <div class="col-xs-12 paddingLeft-0 xs-paddingRight-0 marginBottom-xm">
-                <span class="fontFamily-primary fontFamily-primary-bold fontSize-m textTransform-capitilze">
-                    {{vm.user.profile.fname + ' ' + vm.user.profile.lname}}
-                </span>
-            </div>
-        </div>
-        <div class="row margin-0">
-            <div ui-sref="dashboard.data({key: key, uid: vm.uid})" ng-repeat="(key,data) in vm.datas" class="col-xs-12 col-sm-4 col-md-3 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
-                <div ng-class="{'opac-xm': !data[data.length-1].value, 'cursor-pointer': data[data.length-1].value, 'boxShadow-card': data[data.length-1].value}" class="data-box bg-white borderWidth-1 borderColor-foreground position-relative">
-                    <div class="fontFamily-primary-bold textTransform-uppercase c-grey" style="max-width: 90%;">
-                        {{ data[data.length-1].name }} <span ng-show="data[0].unit" class="fontSize-xxs fontFamily-primary c-grey-l"> / {{ data[data.length-1].unit }}</span> 
-                    </div>
-                    <div ng-show="key === 'ast' || key === 'alt' || key === 'ggt'" class="status-icon">
-											<div ng-show="data[data.length - 1] > data[0] || data[data.length-1].isDanger" class="fontFamily-primary-bold c-danger posPinTR fontSize-xxs textTransform-uppercase">
-													warning
-											</div>
-											<div ng-hide="data[data.length - 1] > data[0] && data[data.length-1].isDanger" class="fontFamily-primary-bold c-success posPinTR fontSize-xxs textTransform-uppercase">
-													normal
-											</div>
-                    </div>
-										<div ng-show="(key !== 'ast' || key !== 'alt' || key !== 'ggt')" class="status-icon">
-											<div ng-show="data[data.length-1].isDanger" class="fontFamily-primary-bold c-danger posPinTR fontSize-xxs textTransform-uppercase">
-													warning
-											</div>
-											<div ng-hide="data[data.length-1].isDanger" class="fontFamily-primary-bold c-success posPinTR fontSize-xxs textTransform-uppercase">
-													normal
-											</div>
-                    </div>
-                    <div ng-class="{'c-danger': data[data.length-1].isDanger, 'c-grey-d': !data[data.length-1].isDanger}"  style="line-height: 1.2" class="fontFamily-primary fontSize-xxl position-relative">
-                        {{ data[data.length-1].value || "--" }}
-                    </div>
-                    <div ng-show="data[data.length-1].timestamp" class="fontFamily-primary c-grey">
-                        {{ data[data.length-1].timeAgo }}
-                    </div>
-                    <div ng-hide="data[data.length-1].timestamp" class="fontFamily-primary c-grey">
-                        No updates
-                    </div>
-                    <highchart id="chartfriend" class="chart-box" config="vm.chartConfig[key]"></highchart>
+  <div class="padding-xm">
+      <div class="row margin-0">
+        <div class="col-xs-12 col-sm-5 col-md-3 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
+          <div ng-class="{'box-loading': !vm.friend }" class="boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative">
+            <i ng-hide="vm.friend" class="ion-load-c load"></i>
+            <div ng-show="vm.friend" class="row margin-0">
+              <div class="col-xs-12">
+                <div class="padding-xm textAlign-center">
+                  <div style="margin: 0 auto; border-radius: 50%; width: 120px; height: 120px; background-color: #ddd; background-image: url('{{vm.friend.profilePic}}'); background-position: center; background-size: cover;"></div>
                 </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="paddingBottom-xm">
+                  <div class="fontFamily-primary-bold fontSize-xm textTransform-capitilze textAlign-center marginBottom-xm">
+                    {{ (vm.friend.fname + ' ' + vm.friend.lname) ||  'Passagorn Juntaramaha'}}
+                  </div>
+                  <div class="follow marginBottom-xm" style="display: flex; align-items: center; justify-content: center">
+                    <div class="follow-item textAlign-center borderRightWidth-1 borderColor-grey borderStyle-solid" style="flex:1">
+                      <div class="fontSize-xm fontWeight-3">{{ vm.friend.following.length || '0' }}</div>
+                      <div class="fontSize-xxs fontFamily-primary-bold c-grey textTransform-uppercase">following</div>
+                    </div>
+                    <div class="follow-item textAlign-center" style="flex:1">
+                      <div class="fontSize-xm fontWeight-3">{{ vm.friend.follower.length || '0' }}</div>
+                      <div class="fontSize-xxs fontFamily-primary-bold c-grey textTransform-uppercase">followers</div>
+                    </div>
+                  </div>
+                  <div class="textTransform-capitilze fontWeight-7 fontFamily-primary-bold c-grey">
+                    Profile
+                  </div>
+                  <div class="textTranform-capitilze">
+                    {{ vm.friend.gender }}, {{ vm.friend.age }}
+                  </div>
+                  <div class="textTranform-capitilze">
+                    {{ vm.friend.height }} cm, {{ vm.friend.weight }} kg
+                  </div>
+                  <div class="textTranform-capitilze">
+                    <span ng-show="!vm.friend.smoke">No</span> Smoking
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="paddingBottom-xm">
+                  <div class="textTransform-capitilze fontWeight-7 fontFamily-primary-bold c-grey">
+                    Medical issues
+                  </div>
+                  <div class="textTransform-capitilze">
+                    {{ vm.friend.medical }}
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
+        <div class="col-xs-12 col-sm-7 col-md-9 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
+          <div class="row margin-0">
+            <div ng-repeat="(key, val) in vm.health" class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0" >
+              <div ui-sref="dashboard.friendData({id: vm.friend._id, key: key})" ng-class="{'box-loading': !vm.health}" class="animated fadeIn padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
+                <i ng-hide="vm.health" class="ion-load-c load"></i>
+                <div ng-show="vm.health">
+                  <div class="data-name fontFamily-primary-bold c-grey fontSize-s">
+                    {{key}}
+                  </div>
+                  <div class="data-icon textAlign-center ">
+                    <img src="../assets/images/{{val[0].type}}.svg" style="max-height: 65px;" alt="">
+                  </div>
+                  <div ng-show="!val[0].isDanger" class="data-value textAlign-center marginTop-xm">
+                    <span class="fontFamily-primary fontWeight-3 fontSize-xl marginRight-s c-black">{{val[0].value}}</span> <span class="c-grey fontWeight-3">{{val[0].unit}}</span>
+                  </div>
+                  <div ng-show="val[0].isDanger" class="data-value textAlign-center marginTop-xm">
+                    <span class="fontFamily-primary fontWeight-3 fontSize-xl marginRight-s c-danger">{{val[0].value}}</span> <span class="c-danger fontWeight-3">{{val[0].unit}}</span>
+                  </div>
+                  <div ng-show="!val[0].isDanger" class="data-label textAlign-center fontSize-xxs fontFamily-primary-bold c-success textTransform-uppercase">
+                    normal
+                  </div>
+                  <div ng-show="val[0].isDanger" class="c-danger data-label textAlign-center fontSize-xxs fontFamily-primary-bold c-success textTransform-uppercase">
+                    warning
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0">
+              <div ng-hide="vm.health" class="animated fadeIn box-loading padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
+                <i ng-hide="vm.health" class="ion-load-c load"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
 </div>
+

@@ -13,8 +13,7 @@
 			follow: follow,
 			unfollow: unfollow,
 			confirm: confirm,
-			decline: decline,
-			get: get
+			decline: decline
 		}
 		return friendService;
 
@@ -22,18 +21,18 @@
 			var defer = $q.defer();
 
 			var data = {
-				token: $cookies.get('token'),
+				token: $cookies.get('token').replace(/["]+/g,''),
 				follow_id: follow_id
 			}
-
+			// console.log(data);
 			$http
 				.post(BASE_URL + '/follow', data)
 				.then(function (data) {
-					console.log(data);
+					// console.log(data.data);
 					defer.resolve(data.data);
 				})
 				.catch(function (error) {
-					console.log(error);
+					// console.log(error.data);
 					defer.reject(error);
 				});
 
@@ -44,18 +43,18 @@
 			var defer = $q.defer();
 
 			var data = {
-				token: $cookies.get('token'),
+				token: $cookies.get('token').replace(/["]+/g,''),
 				follow_id: follow_id
 			}
 
 			$http
 				.post(BASE_URL + '/unfollow', data)
 				.then(function (data) {
-					console.log(data);
+					// console.log(data.data);
 					defer.resolve(data.data);
 				})
 				.catch(function (error) {
-					console.log(error);
+					// console.log(error.data);
 					defer.reject(error);
 				});
 
@@ -66,18 +65,18 @@
 			var defer = $q.defer();
 
 			var data = {
-				token: $cookies.get('token'),
+				token: $cookies.get('token').replace(/["]+/g,''),
 				follow_id: follow_id
 			}
 
 			$http
 				.post(BASE_URL + '/confirm', data)
 				.then(function (data) {
-					console.log(data);
+					// console.log(data.data);
 					defer.resolve(data.data);
 				})
 				.catch(function (error) {
-					console.log(error);
+					// console.log(error.data);
 					defer.reject(error);
 				});
 
@@ -88,44 +87,24 @@
 			var defer = $q.defer();
 
 			var data = {
-				token: $cookies.get('token'),
+				token: $cookies.get('token').replace(/["]+/g,''),
 				follow_id: follow_id
 			}
-
+			// console.log(data);
 			$http
 				.post(BASE_URL + '/decline', data)
 				.then(function (data) {
-					console.log(data);
+					// console.log(data.data);
 					defer.resolve(data.data);
 				})
 				.catch(function (error) {
-					console.log(error);
+					// console.log(error.data);
 					defer.reject(error);
 				});
 
 			return defer.promise;
 		}
 
-		function get() {
-			var defer = $q.defer();
-
-			var data = {
-				token: $cookies.get('token')
-			}
-
-			$http
-				.post(BASE_URL, data)
-				.then(function (data) {
-					console.log(data);
-					defer.resolve(data.data);
-				})
-				.catch(function (error) {
-					console.log(error);
-					defer.reject(error);
-				});
-
-			return defer.promise;
-		}
 	}
 
 })();

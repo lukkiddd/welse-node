@@ -5,6 +5,15 @@
     .navbar, .menubar { 
         display: none;
     }
+    .load {
+        -webkit-animation:spin .5s linear infinite;
+        -moz-animation:spin .5s linear infinite;
+        animation:spin .5s linear infinite;
+        color: #aaaaaa;
+    }
+    @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+    @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+    @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 </style>
 
 <div class="container display-flex justifyContent-center alignItems-center">
@@ -16,13 +25,13 @@
             Hello there,</br>
             Welcome Back
         </div>
-        <form ng-submit="vm.login(vm.user)">
+        <form ng-submit="login(user)">
           <div class="loginForm marginTop-l">
               <div class="input">
-                  <input ng-model="vm.user.email" type="email" type="text" placeholder="Email Address">
+                  <input ng-model="user.email" type="email" type="text" placeholder="Email Address">
               </div>
               <div class="input">
-                  <input ng-model="vm.user.password" type="password" placeholder="Password">
+                  <input ng-model="user.password" type="password" placeholder="Password">
               </div>
               <!--<div ui-sref="forgetpassword" class="link link-primary textAlign-right fontFamily-primary-bold display-block marginTop-xs">
                   Forget password?
@@ -31,13 +40,13 @@
           <div class="loginButton marginTop-xl">
               <button
                 ng-class="{
-                  'button-grey-d': vm.loading,
-                  'cursor-progress': vm.loading,
-                  'c-white': vm.loading,
-                  'button-primary': !vm.loading}"
+                  'button-grey-d': loading,
+                  'cursor-progress': loading,
+                  'c-white': loading,
+                  'button-primary': !loading}"
                 type="submit" class="button fontFamily-primary-bold button-full">
-                <span ng-hide="vm.loading">Login</span>
-                <span ng-show="vm.loading">Loading...</span>
+                <span ng-hide="loading">Login</span>
+                <i ng-show="loading" class="ion-load-c load"></i>
               </button>
           </div>
         </form>

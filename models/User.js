@@ -30,8 +30,10 @@ const userSchema = new Schema({
 		lowercase: true,
 		trim: true
 	},
-	following: [{ type: Schema.Types.ObjectId, ref: 'Friend' }],
-	follower: [{ type: Schema.Types.ObjectId, ref: 'Friend' }],
+	following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+	follower: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+	pending: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+	request: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 	profilePic: String,
 	height: String,
 	weight: String,
