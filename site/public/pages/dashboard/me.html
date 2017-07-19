@@ -1,0 +1,247 @@
+
+<div class="animated fadeIn">
+  <div class="padding-xm">
+      <div ng-show="vm.me" class="row margin-0 marginBottom-xm">
+          <div class="col-xs-12 textAlign-right paddingLeftRight-0">
+              <div class="display-inline-block button-add-wrapper">
+                  <div ng-click="vm.devices_modal.show()" class="button-add button button-primary fontFamily-primary-bold paddingLeftRight-xm" style="width: 150px"><i class="icon ion-android-add-circle marginRight-xs"></i> Add Devices</div>
+              </div>
+          </div>
+      </div>
+      <div class="row margin-0">
+        <div class="col-xs-12 col-sm-5 col-md-3 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
+          <div ng-class="{'box-loading': !vm.me }" class="boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative">
+            <i ng-hide="vm.me" class="ion-load-c load"></i>
+            <div ng-show="vm.me" class="row margin-0">
+              <div class="col-xs-12">
+                <div class="padding-xm textAlign-center">
+                  <div style="margin: 0 auto; border-radius: 50%; width: 120px; height: 120px; background-color: #ddd; background-image: url('{{vm.me.profilePic}}'); background-position: center; background-size: cover;"></div>
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="paddingBottom-xm">
+                  <div class="fontFamily-primary-bold fontSize-xm textTransform-capitilze textAlign-center marginBottom-xm">
+                    {{ (vm.me.fname + ' ' + vm.me.lname)}}
+                  </div>
+                  <div class="follow marginBottom-xm" style="display: flex; align-items: center; justify-content: center">
+                    <div class="follow-item textAlign-center borderRightWidth-1 borderColor-grey borderStyle-solid" style="flex:1">
+                      <div class="fontSize-xm fontWeight-3">{{ vm.me.following.length || '0' }}</div>
+                      <div class="fontSize-xxs fontFamily-primary-bold c-grey textTransform-uppercase">following</div>
+                    </div>
+                    <div class="follow-item textAlign-center" style="flex:1">
+                      <div class="fontSize-xm fontWeight-3">{{ vm.me.follower.length || '0' }}</div>
+                      <div class="fontSize-xxs fontFamily-primary-bold c-grey textTransform-uppercase">followers</div>
+                    </div>
+                  </div>
+                  <div class="textTransform-capitilze fontWeight-7 fontFamily-primary-bold c-grey">
+                    Profile
+                  </div>
+                  <div class="textTranform-capitilze">
+                    {{ vm.me.gender }}, {{ vm.me.age }}
+                  </div>
+                  <div class="textTranform-capitilze">
+                    {{ vm.me.height }} cm, {{ vm.me.weight }} kg
+                  </div>
+                  <div class="textTranform-capitilze">
+                    <span ng-show="!vm.me.smoke">No</span> Smoking
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="paddingBottom-xm">
+                  <div class="textTransform-capitilze fontWeight-7 fontFamily-primary-bold c-grey">
+                    Medical issues
+                  </div>
+                  <div class="textTransform-capitilze">
+                    {{ vm.me.medical }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-class="{'box-loading': !vm.me }" class="marginTop-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative">
+            <i ng-hide="vm.me" class="ion-load-c load"></i>
+            <div ng-show="vm.me" class="row margin-0">
+              <div class="col-xs-12 paddingTop-xm">
+                <div class="fontFamily-primary-bold c-grey textTransform-uppercase">
+                  friends
+                </div>
+                <div ng-click="vm.friends_modal.show()" class="link link-grey fontSize-xm" style="position: absolute; top: 15px; right: 20px;">
+                  <i class="ion-person-add"></i>
+                </div>
+              </div>
+              <div class="col-xs-12 paddingBottom-xm overflowY-scroll" style="height: 300px;">
+                <div ng-repeat="friend in vm.me.request" class="row marginTop-s paddingTopBottom-s bg-grey-l--hover">
+                  <div class="col-xs-3 paddingRight-0">
+                    <div style="background-color: #ddd; height: 40px; width: 40px; border-radius:50%; background-image: url('{{friend.profilePic}}'); background-position: center; background-size: cover;"></div>
+                  </div>
+                  <div class="col-xs-9 paddingRight-0">
+                    <div>
+                      <span style="text-transform: capitalize;">{{friend.fname}}</span> <span style="text-transform: capitalize;">{{friend.lname}}</span>
+                    </div>
+                    <div ng-hide="friend.loading">
+                      <div ng-click="vm.confirm(friend)" class="fontFamily-primary-bold textTransform-uppercase textAlign-center cursor-pointer" style="font-size: 10px; padding: 3px; border-radius:3px; display:inline-block; border: 1px solid #2a65ff; background-color:#2a65ff; color:#ffffff;">
+                        confirm
+                      </div>
+                      <div ng-click="vm.decline(friend)" class="fontFamily-primary-bold textTransform-uppercase textAlign-center cursor-pointer" style="font-size: 10px; padding: 3px; border-radius:3px; display:inline-block; border: 1px solidtransparent; color:#aaa;">
+                        decline
+                      </div>
+                    </div>
+                    <div ng-show="friend.loading">
+                      <div class="button-loading fontFamily-primary-bold textTransform-uppercase textAlign-center" style="font-size: 10px; padding: 3px; display:inline-block; border-radius:3px;">
+                        <i class="ion-load-c load"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div ng-repeat="friend in vm.me.pending" class="row marginTop-s bg-grey--hover">
+                  <div class="col-xs-3 paddingRight-0">
+                    <div style="background-color: #ddd; height: 40px; width: 40px; border-radius:50%; background-image: url('{{friend.profilePic}}'); background-position: center; background-size: cover;"></div>
+                  </div>
+                  <div class="col-xs-9 paddingRight-0">
+                    <div>
+                      <span style="text-transform: capitalize;">{{friend.fname}}</span> <span style="text-transform: capitalize;">{{friend.lname}}</span>
+                    </div>
+                    <div>
+                      <div class="button-loading fontFamily-primary-bold textTransform-uppercase textAlign-center" style="font-size: 10px; padding: 3px; display:inline-block; border-radius:3px;">
+                        pending
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div ng-repeat="friend in vm.me.following" class="row marginTop-s bg-foreground--hover paddingTopBottom-xs cursor-pointer">
+                  <div class="col-xs-3 paddingRight-0">
+                    <div style="background-color: #ddd; height: 40px; width: 40px; border-radius:50%; background-image: url('{{friend.profilePic}}'); background-position: center; background-size: cover;"></div>
+                  </div>
+                  <div class="col-xs-9 paddingRight-0">
+                    <div>
+                      <span style="text-transform: capitalize;">{{friend.fname}}</span> <span style="text-transform: capitalize;">{{friend.lname}}</span>
+                    </div>
+                    <div ng-hide="friend.loading">
+                      <div ui-sref="dashboard.friend({id: friend._id})" class="fontFamily-primary-bold textTransform-uppercase textAlign-center cursor-pointer" style="font-size: 10px; padding: 3px; display:inline-block; border-radius:3px; border: 1px solid #2a65ff; color:#2a65ff;">
+                        see data
+                      </div>
+                      <div ng-click="vm.unfollow(friend)" class="fontFamily-primary-bold textTransform-uppercase textAlign-center cursor-pointer" style="font-size: 10px; padding: 3px; display:inline-block; border-radius:3px; border: 1px solid #2a65ff; color:#2a65ff;">
+                        unfollow
+                      </div>
+                    </div>
+                    <div ng-show="friend.loading">
+                      <div class="button-loading fontFamily-primary-bold textTransform-uppercase textAlign-center" style="font-size: 10px; padding: 3px; display:inline-block; border-radius:3px;">
+                        <i class="ion-load-c load"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-7 col-md-9 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
+          <div class="row margin-0">
+            <div ng-repeat="(key, val) in vm.health" class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0" >
+              <div ui-sref="dashboard.data({key: key})" ng-class="{'box-loading': !vm.health}" class="animated fadeIn padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
+                <i ng-hide="vm.health" class="ion-load-c load"></i>
+                <div ng-show="vm.health">
+                  <div class="data-name fontFamily-primary-bold c-grey fontSize-s">
+                    {{key}}
+                  </div>
+                  <div class="data-icon textAlign-center ">
+                    <img src="../assets/images/{{val[0].type}}.svg" style="max-height: 65px;" alt="">
+                  </div>
+                  <div ng-show="!val[0].isDanger" class="data-value textAlign-center marginTop-xm">
+                    <span class="fontFamily-primary fontWeight-3 fontSize-xl marginRight-s c-black">{{val[0].value}}</span> <span class="c-grey fontWeight-3">{{val[0].unit}}</span>
+                  </div>
+                  <div ng-show="val[0].isDanger" class="data-value textAlign-center marginTop-xm">
+                    <span class="fontFamily-primary fontWeight-3 fontSize-xl marginRight-s c-danger">{{val[0].value}}</span> <span class="c-danger fontWeight-3">{{val[0].unit}}</span>
+                  </div>
+                  <div ng-show="!val[0].isDanger" class="data-label textAlign-center fontSize-xxs fontFamily-primary-bold c-success textTransform-uppercase">
+                    normal
+                  </div>
+                  <div ng-show="val[0].isDanger" class="c-danger data-label textAlign-center fontSize-xxs fontFamily-primary-bold c-success textTransform-uppercase">
+                    warning
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0">
+              <div ng-hide="vm.health" class="animated fadeIn box-loading padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
+                <i ng-hide="vm.health" class="ion-load-c load"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+<!-- Add Device -->
+<div ng-show="vm.devices_modal._show" class="animated fadeIn _modal">
+  <div class="padding-xm">
+      <div class="animated zoomIn bg-white padding-xm boxShadow-card borderRadius-xs borderWidth-1 borderColor-foreground borderStyle-solid centered" style="min-width: 200px; max-width: 400px; height: 400px;">
+          <div class="fontFamily-primary-bold textTransform-uppercase position-relative">
+              3rd Party supported <span class="floatRight"><i ng-click="vm.devices_modal.close()" class="icon ion-close-circled c-grey fontSize-xm"></i>
+          </div>
+          <div class="marginTop-xxs">
+              <input ng-model="vm.thirdPartySearch" class="width-100 fontFamily-primary paddingTopBottom-s paddingLeftRight-s bg-foreground borderWidth-0" type="text" placeholder="Search" />
+          </div>
+          <div style="height: 350px; overflow-y: scroll;">
+              <div class="row margin-0 user-item paddingTopBottom-s paddingLeftRight-xs borderBottomWidth-1 borderColor-foreground borderStyle-solid ">
+                  <div style="padding-top: 5px; padding-bottom: 5px;" class="col-xs-8 c-grey-d fontFamily-primary-bold paddingLeftRight-0">
+                      <span style="text-transform: capitalize;">Fitbit</span>
+                  </div>
+                  <div class="col-xs-4 paddingLeftRight-0 textAlign-right">
+                      <a href="https://welse-node-v6.azurewebsites.net/api/fitbit/authorize?id={{vm.me._id}}" class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px; width:80px; display:block; float: right;">
+                          Add
+                      </a>
+                  </div>
+              </div> 
+
+              <div ng-repeat="thirdPartyItem in vm.thirdPartyList | filter:vm.thirdPartySearch" class="row margin-0 user-item paddingTopBottom-s paddingLeftRight-xs borderBottomWidth-1 borderColor-foreground borderStyle-solid ">
+                  <div style="padding-top: 5px; padding-bottom: 5px;" class="col-xs-8 c-grey-d fontFamily-primary-bold paddingLeftRight-0">
+                      <span style="text-transform: capitalize; opacity: .4;">{{thirdPartyItem.name}}</span>
+                  </div>
+                  <div class="col-xs-4 paddingLeftRight-0 textAlign-right">
+                    <button class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px; cursor: not-allowed; background-color: #ddd;">
+                      Add
+                    </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- end add device -->
+
+<!-- friend (add) -->
+<div ng-show="vm.friends_modal._show" class="animated fadeIn _modal">
+  <div class="padding-xm">
+      <div class="animated zoomIn bg-white padding-xm boxShadow-card borderRadius-xs borderWidth-1 borderColor-foreground borderStyle-solid centered" style="min-width: 200px; max-width: 400px; height: 450px;">
+          <div class="fontFamily-primary-bold textTransform-uppercase position-relative">
+              users <span class="floatRight"><i ng-click="vm.friends_modal.close()" class="icon ion-close-circled c-grey fontSize-xm"></i>
+          </div>
+          <div class="marginTop-xxs">
+              <input ng-model="vm.searchUser" class="width-100 fontFamily-primary paddingTopBottom-s paddingLeftRight-s bg-foreground borderWidth-0" type="text" placeholder="Search" />
+          </div>
+          <div style="height: 350px; overflow-y: scroll;">
+            <div ng-repeat="user in vm.allUsers | filter:vm.searchUser" class="row marginTop-xm">
+              <div class="col-xs-3 paddingRight-0">
+                <div style="background: #ddd; height: 40px; width: 40px; border-radius:50%; background-image: url('{{user.profilePic}}'); background-position: center; background-size: cover;"></div>
+              </div>
+              <div class="col-xs-6 paddingLeftRight-0 lh-3">
+                <span style="text-transform: capitalize;">{{user.fname}}</span> <span style="text-transform: capitalize;">{{user.lname}}</span>
+              </div>
+              <div class="col-xs-3 textAlign-right paddingTopBottom-s">
+                <div ng-hide="user.loading" ng-click="vm.follow(user)" class="fontFamily-primary-bold textTransform-uppercase textAlign-center cursor-pointer" style="font-size: 10px; padding: 3px; border-radius: 3px; display:inline-block; border: 1px solid #2a65ff; color:#2a65ff;">
+                  follow
+                </div>
+                <div ng-show="user.loading" class="button-loading fontFamily-primary-bold textTransform-uppercase textAlign-center cursor-pointer" style="font-size: 10px; padding: 3px; display:inline-block; border-radius: 3px;">
+                  <i class="ion-load-c load"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- end friend (add) -->
