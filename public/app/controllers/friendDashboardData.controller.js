@@ -5,16 +5,18 @@
 		.module('app')
 		.controller('friendDashboardDataCtrl', friendDashboardDataCtrl);
 
-	friendDashboardDataCtrl.$inject = ['$scope', '$stateParams', 'Users', 'Health', 'Goal'];
+	friendDashboardDataCtrl.$inject = ['$scope', '$stateParams', '$interval', 'Users', 'Health', 'Goal'];
 
-	function friendDashboardDataCtrl($scope, $stateParams, Users, Health, Goal) {
+	function friendDashboardDataCtrl($scope, $stateParams, $interval, Users, Health, Goal) {
 		var vm = this;
 		
 		$scope.userId = $stateParams.id;
 		$scope.key = $stateParams.key;
 		$scope.selectedData = false;
 		$scope.chartData = false;
-		getData($scope.userId);
+		$interval(function () {
+			getData($scope.userId);
+		}, 3000);
 		
 
 		$scope.goal = {

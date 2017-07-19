@@ -5,14 +5,16 @@
 		.module('app')
 		.controller('friendDashboardCtrl', friendDashboardCtrl);
 
-	friendDashboardCtrl.$inject = ['$stateParams', 'Users', 'Health'];
+	friendDashboardCtrl.$inject = ['$stateParams', '$interval', 'Users', 'Health'];
 
-	function friendDashboardCtrl($stateParams, Users, Health) {
+	function friendDashboardCtrl($stateParams, $interval, Users, Health) {
 		var vm = this;
 		
 		var userId = $stateParams.id;
 		if (userId) {
-			getProfile(userId);
+			$interval(function () {
+				getProfile(userId);
+			}, 3000);
 		}
 
 		function getProfile(userId) {

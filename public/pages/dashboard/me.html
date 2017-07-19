@@ -1,7 +1,7 @@
 
 <div class="animated fadeIn">
   <div class="padding-xm">
-      <div class="row margin-0 marginBottom-xm">
+      <div ng-show="vm.me" class="row margin-0 marginBottom-xm">
           <div class="col-xs-12 textAlign-right paddingLeftRight-0">
               <div class="display-inline-block button-add-wrapper">
                   <div ng-click="vm.devices_modal.show()" class="button-add button button-primary fontFamily-primary-bold paddingLeftRight-xm" style="width: 150px"><i class="icon ion-android-add-circle marginRight-xs"></i> Add Devices</div>
@@ -186,25 +186,25 @@
               <input ng-model="vm.thirdPartySearch" class="width-100 fontFamily-primary paddingTopBottom-s paddingLeftRight-s bg-foreground borderWidth-0" type="text" placeholder="Search" />
           </div>
           <div style="height: 350px; overflow-y: scroll;">
-              <!-- <div class="row margin-0 user-item paddingTopBottom-s paddingLeftRight-xs borderBottomWidth-1 borderColor-foreground borderStyle-solid ">
+              <div class="row margin-0 user-item paddingTopBottom-s paddingLeftRight-xs borderBottomWidth-1 borderColor-foreground borderStyle-solid ">
                   <div style="padding-top: 5px; padding-bottom: 5px;" class="col-xs-8 c-grey-d fontFamily-primary-bold paddingLeftRight-0">
                       <span style="text-transform: capitalize;">Fitbit</span>
                   </div>
                   <div class="col-xs-4 paddingLeftRight-0 textAlign-right">
-                      <a href="/api/fitbit/auth" class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px; width:80px; display:block; float: right;">
+                      <a href="http://localhost:3000/api/fitbit/authorize?id={{vm.me._id}}" class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px; width:80px; display:block; float: right;">
                           Add
                       </a>
                   </div>
-              </div> -->
+              </div> 
 
               <div ng-repeat="thirdPartyItem in vm.thirdPartyList | filter:vm.thirdPartySearch" class="row margin-0 user-item paddingTopBottom-s paddingLeftRight-xs borderBottomWidth-1 borderColor-foreground borderStyle-solid ">
                   <div style="padding-top: 5px; padding-bottom: 5px;" class="col-xs-8 c-grey-d fontFamily-primary-bold paddingLeftRight-0">
                       <span style="text-transform: capitalize; opacity: .4;">{{thirdPartyItem.name}}</span>
                   </div>
                   <div class="col-xs-4 paddingLeftRight-0 textAlign-right">
-                      <button class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px; cursor: not-allowed; background-color: #ddd;">
-                          Add
-                      </button>
+                    <button class="fontFamily-primary-bold button-primary button textTranform-capitilze borderRadius-xxs" style="padding-top: 4px;padding-bottom: 4px; cursor: not-allowed; background-color: #ddd;">
+                      Add
+                    </button>
                   </div>
               </div>
           </div>

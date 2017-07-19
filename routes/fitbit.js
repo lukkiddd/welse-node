@@ -10,30 +10,38 @@ const router = express.Router();
 const client = new FitbitApiClient(config.CLIENT_ID, config.CLIENT_SECRET)
 
 router.get('/authorize',  (req, res) => {
-	res.redirect(client.getAuthorizeUrl('activity', 'http://localhost:3000/api/fitbit/callback'))
+	const id = req.query.id;
+	res.redirect(client.getAuthorizeUrl('activity heartrate sleep', 'http://localhost:3000/api/fitbit/callback', 'none', id))
 });
 
 router.get('/callback', (req, res) => {
+	const _id = req.query.state;
 	client.getAccessToken(req.query.code, 'http://localhost:3000/api/fitbit/callback')
 		.then( (result) => {
 			client.get('/activities/steps/date/today/1y.json', result.access_token)
 				.then( async (results) => {
 					const steps = results[0]['activities-steps'];
-					const retval = [];
-					_.forEach(steps, (val,key) => {
-						let stepData = {
+					const stepData = _.sortBy(_.takeRight(steps, 100), 'dateTime');
+					
+					_.forEach(stepData, async (val) => {
+						let date = new Date(val.dateTime).getTime() / 1000
+						let step = new Health({
 							chartType: 'column',
 							name: 'steps',
-							timestamp: Date.now().toString(),
+							timestamp: date,
 							unit: 'step',
 							value: val.value,
 							max: 0,
 							type: 'step',
 							_user: _id
-						}
-						retval.push(stepData);
-					});
-					res.json(retval);
+						});
+						let result = await step.save();
+					})
+					if (result) {
+						res.redirect('http://localhost:3000');
+					} else {
+						res.json({'message': 'error'});
+					}
 				});
 		})
 		.catch( (error) => {
@@ -41,6 +49,8 @@ router.get('/callback', (req, res) => {
 			res.send(error);
 		})
 })
+
+
 
 export default router;
 

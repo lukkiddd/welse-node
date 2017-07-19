@@ -37,14 +37,8 @@
 		vm.confirm = confirm;
 		vm.decline = decline;
 		vm.unfollow = unfollow;
-		
-		// vm.addDevice = addDevice;
-		// vm.closeAddDevice = closeAddDevice;
-		// vm.showAddDevice = false;
-		// vm.addNewDevice = addNewDevice;
+
 		vm.thirdPartyList = [{
-			name: "FitBit"
-		},{
 			name: "iHealth"
 		},{
 			name: "wahoo",
@@ -68,9 +62,9 @@
 		isAuth();
 		function isAuth() {
 			if(Users.isLogin()) {
-				// $interval(function () {
+				$interval(function () {
 					getProfile();
-				// }, 3000);
+				}, 3000);
 			}
 		}
 
@@ -83,7 +77,9 @@
 					getHealth();
 				})
 				.catch(function () {
-					getProfile()
+					if(!vm.me) {
+						getProfile();
+					}
 				});
 		}
 
@@ -94,7 +90,9 @@
 					vm.allUsers = data;
 				})
 				.catch(function () {
-					getAllUsers()
+					if(!vm.allUsers) {
+						getAllUsers()
+					}
 				});
 		}
 
@@ -107,7 +105,9 @@
 				})
 				.catch(function (error) {
 					console.log(error);
-					getHealth();
+					if(!vm.health) {
+						getHealth();
+					}
 				});
 		}
 
