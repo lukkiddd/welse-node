@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-
+require("babel-polyfill");
 var app = require('../app');
 var debug = require('debug')('welse-azure:server');
 var http = require('http');
