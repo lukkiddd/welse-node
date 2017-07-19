@@ -1,13 +1,12 @@
 {
-  "name": "azure-node-es2015-example",
+  "name": "welse-azure",
   "version": "1.0.0",
-  "description": "A sample Azure App Service App",
+  "description": "Welse application",
   "main": "gulpfile.js",
   "scripts": {
     "start": "node ./node_modules/nodemon/bin/nodemon.js ./bin/www --exec ./node_modules/.bin/babel-node"
   },
-  "author": "chrande@microsoft.com",
-  "license": "MIT",
+  "author": "s.phasathorn@gmail.com",
   "dependencies": {
     "babel-cli": "^6.22.2",
     "babel-plugin-transform-object-rest-spread": "^6.22.0",
