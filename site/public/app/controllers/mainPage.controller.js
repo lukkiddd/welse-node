@@ -5,15 +5,17 @@
 			.module('app')
 			.controller('mainPageCtrl', mainPageCtrl);
 
-	mainPageCtrl.$inject = ['$scope', '$state', 'Users', 'Notification'];
+	mainPageCtrl.$inject = ['$scope', '$state', '$interval', 'Users', 'Notification'];
 
-	function mainPageCtrl($scope, $state, Users, Notification) {
+	function mainPageCtrl($scope, $state, $interval, Users, Notification) {
 		var vm = this;
 
 		$scope.logout = logout;
 		$scope.readNoti = readNoti;
 		$scope.notiUnread = false;
-		getNotification();
+		$interval(function () {
+			getNotification();
+		}, 3000);
 
 		function logout() {
 			Users
@@ -30,7 +32,6 @@
 			Notification
 				.getNotification()
 				.then(function (data) {
-					// console.log(data);
 					$scope.notifications = data;
 					$scope.notiUnread = _.filter(data, function (val) {
 						return val.read === false;
@@ -38,7 +39,6 @@
 					console.log($scope.notiUnread);
 				})
 				.catch(function (error) {
-					// console.log(error);
 					if(!$scope.notifications) {
 						getNotification();
 					}
@@ -49,7 +49,7 @@
 			Notification
 				.readNotification(noti._id)
 				.then(function (data) {
-					// console.log(data);
+					getNotification();
 				})
 				.catch(function (error) {
 					console.log(error);

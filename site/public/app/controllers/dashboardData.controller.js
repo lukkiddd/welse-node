@@ -5,9 +5,9 @@
 		.module('app')
 		.controller('dashboardDataCtrl', dashboardDataCtrl);
 
-		dashboardDataCtrl.$inject = ['$scope', '$stateParams', 'Health', 'Goal'];
+		dashboardDataCtrl.$inject = ['$scope', '$stateParams', '$interval', 'Health', 'Goal'];
 
-		function dashboardDataCtrl($scope, $stateParams, Health, Goal) {
+		function dashboardDataCtrl($scope, $stateParams, $interval, Health, Goal) {
 			var vm = this;
 
 			$scope.goal = {
@@ -48,7 +48,9 @@
 			$scope.key = $stateParams.key;
 			$scope.selectedData = false;
 			$scope.chartData = false;
-			getData();
+			$interval(function () {
+				getData();
+			}, 3000);
 
 			function getData() {
 				Health

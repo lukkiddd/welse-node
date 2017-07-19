@@ -14,7 +14,8 @@ gulp.task('babel', function () {
     return gulp.src(paths.src)
         .pipe(sourcemaps.init())
         .pipe(babel({
-            presets: ['es2015','es2017']
+            presets: ['es2015','es2017'],
+            plugins: ['transform-object-rest-spread']
         }))
         .pipe(sourcemaps.write('.', { sourceRoot: paths.sourceRoot }))
         .pipe(gulp.dest(paths.dest));

@@ -3,9 +3,7 @@ import config from '../config';
 
 class tokenManage {
   static generate(value) {
-    var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-    var newVal = _extends({}, value);
+    const newVal = { ...value };
     newVal.token = undefined;
     return jwt.sign(newVal, config.SECRET_KEY, {
       expiresIn: '360d',
