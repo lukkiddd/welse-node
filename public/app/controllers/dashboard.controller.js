@@ -43,6 +43,10 @@
 		// vm.showAddDevice = false;
 		// vm.addNewDevice = addNewDevice;
 		vm.thirdPartyList = [{
+			name: "FitBit"
+		},{
+			name: "iHealth"
+		},{
 			name: "wahoo",
 		},{
 			name: "skulpt aim"

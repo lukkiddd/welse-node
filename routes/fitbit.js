@@ -9,16 +9,31 @@ const router = express.Router();
 
 const client = new FitbitApiClient(config.CLIENT_ID, config.CLIENT_SECRET)
 
-router.get('/authorize', (req, res) => {
-	res.redirect(client.getAuthorizeUrl('activity heartrate sleep', 'https://welse-platform.azurewebsites.net/api/fitbit/callback'))
+router.get('/authorize',  (req, res) => {
+	res.redirect(client.getAuthorizeUrl('activity', 'http://localhost:3000/api/fitbit/callback'))
 });
 
 router.get('/callback', (req, res) => {
-	client.getAccessToken(req.query.code, 'https://welse-platform.azurewebsites.net/api/fitbit/callback')
+	client.getAccessToken(req.query.code, 'http://localhost:3000/api/fitbit/callback')
 		.then( (result) => {
-			client.get('/', result.access_token)
-				.then( (results) => {
-					res.send(results);
+			client.get('/activities/steps/date/today/1y.json', result.access_token)
+				.then( async (results) => {
+					const steps = results[0]['activities-steps'];
+					const retval = [];
+					_.forEach(steps, (val,key) => {
+						let stepData = {
+							chartType: 'column',
+							name: 'steps',
+							timestamp: Date.now().toString(),
+							unit: 'step',
+							value: val.value,
+							max: 0,
+							type: 'step',
+							_user: _id
+						}
+						retval.push(stepData);
+					});
+					res.json(retval);
 				});
 		})
 		.catch( (error) => {
@@ -28,3 +43,4 @@ router.get('/callback', (req, res) => {
 })
 
 export default router;
+

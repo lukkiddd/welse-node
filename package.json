@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js ./bin/www --exec ./node_modules/.bin/babel-node"
+    "start": "D:\home\site\wwwroot\node_modules\nodemon\bin\nodemon.js D:\home\site\wwwroot\bin\www --exec D:\home\site\wwwroot\node_modules\.bin\babel-node"
   },
   "dependencies": {
     "axios": "^0.15.3",
