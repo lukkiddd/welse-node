@@ -87,10 +87,10 @@
 			Users
 				.getUsers()
 				.then(function (data) {
-					var users = _.filter(data, function(val) {
-						return vm.me.following.indexOf(val._id) < 0;
-					});
-					console.log(users);
+					console.log(vm.me.following);
+					_.forEach(data, function (val) {
+						console.log(val._id);
+					})
 					vm.allUsers = users;
 				})
 				.catch(function () {
