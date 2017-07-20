@@ -4,7 +4,9 @@
   "description": "Welse application",
   "main": "gulpfile.js",
   "scripts": {
-    "start": "node ./node_modules/nodemon/bin/nodemon.js ./bin/www --exec ./node_modules/.bin/babel-node"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp nodemon",
+    "build": "gulp build"
   },
   "author": "s.phasathorn@gmail.com",
   "dependencies": {
