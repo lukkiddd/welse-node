@@ -47,6 +47,49 @@ router.post('/push', async (req, res, next) => {
 					let resultNotification = await notification.save();
 				});
 			}
+			// Creatinine
+			if (data.name == 'Creatinine' || data.name == 'creatinine') {
+				const dataGFR = {
+					chartType: 'column',
+					name: 'eGFR',
+					timestamp: new Date().getTime() / 1000,
+					unit: 'ml/min/1.73m2',
+					type: 'blood',
+					_user: user._id
+				}
+				if (user.gender == 'Male' || user.gender == 'male') {
+					// male
+					if (data.value > 0.9) {
+						dataGFR.value = (Math.pow(144 * (data.value / 0.7), -1.209)) * (Math.pow(0.993, parseInt(user.age)))
+					} else {
+						dataGFR.value = (Math.pow(144 * (data.value / 0.7), -0.411)) * (Math.pow(0.993, parseInt(user.age)))
+					}
+					dataGFR.max = 1.2
+					dataGFR.isDanger = (data.value > data.max) ? true : false;
+				} else if(user.gender == 'Female' || user.gender == 'female') {
+					// famale
+					if (data.value > 0.7) {
+						dataGFR.value = (Math.pow(144 * (data.value / 0.7), -1.209)) * (Math.pow(0.993, parseInt(user.age)))
+					} else {
+						dataGFR.value = (Math.pow(144 * (data.value / 0.7), -0.329)) * (Math.pow(0.993, parseInt(user.age)))
+					}
+					dataGFR.max = 1.1;
+					dataGFR.isDanger = (data.value > data.max) ? true : false;
+				}
+				let healthGFR = new Health({
+					chartType: dataGFR.chartType,
+					name: dataGFR.name,
+					timestamp: dataGFR.timestamp,
+					unit: dataGFR.unit,
+					type: dataGFR.type,
+					value: dataGFR.value,
+					max: dataGFR.max,
+					isDanger: dataGFR.isDanger,
+					_user: dataGFR._user
+				});
+				var resultGFR = await healthGFR.save();
+			}
+
 			if (result) {
 				res.json({ message: "success" });
 			} else {
