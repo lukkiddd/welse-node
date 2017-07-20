@@ -14,9 +14,9 @@
 		$scope.key = $stateParams.key;
 		$scope.selectedData = false;
 		$scope.chartData = false;
-		$interval(function () {
+		// $interval(function () {
 			getData($scope.userId);
-		}, 3000);
+		// }, 3000);
 		
 
 		$scope.goal = {

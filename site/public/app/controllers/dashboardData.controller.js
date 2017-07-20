@@ -48,9 +48,9 @@
 			$scope.key = $stateParams.key;
 			$scope.selectedData = false;
 			$scope.chartData = false;
-			$interval(function () {
+			// $interval(function () {
 				getData();
-			}, 3000);
+			// }, 3000);
 
 			function getData() {
 				Health
