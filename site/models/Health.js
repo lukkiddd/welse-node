@@ -7,7 +7,6 @@ var healthSchema = new Schema({
 	chartType: String,
 	name: {
 		type: String,
-		lowercase:true
 	},
 	timestamp: String,
 	unit: String,
