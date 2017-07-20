@@ -1,15 +1,7 @@
 
-<<<<<<< HEAD:bin/www
-var app = require('../app');
-var debug = require('debug')('myapp:server');
-=======
-/**
- * Module dependencies.
- */
 require("babel-polyfill");
 var app = require('../app');
 var debug = require('debug')('welse-azure:server');
->>>>>>> 14d207343622a1e9a9dd29310c04039c1f56058a:site/bin/www
 var http = require('http');
 
 /**
