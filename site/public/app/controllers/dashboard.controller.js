@@ -91,7 +91,7 @@
 						return val._id;
 					});
 					var users = _.filter(data, function(val) {
-						return following.indexOf(val._id) < -1;
+						return following.indexOf(val._id) < 0;
 					});
 					console.log(following);
 					console.log(users);
