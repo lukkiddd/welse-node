@@ -90,12 +90,18 @@
 					var following = _.map(vm.me.following, function (val) {
 						return val._id;
 					});
+					var pending = _.map(vm.me.pending, function (val) {
+						return val._id;
+					})
 					var users = _.filter(data, function(val) {
 						return following.indexOf(val._id) < 0;
 					});
-					console.log(following);
-					console.log(users);
-					vm.allUsers = users;
+					retval = _.filter(users, function(val) {
+						return pending.indexOf(val._id) < 0;
+					})
+					console.log(pending);
+					console.log(retval);
+					vm.allUsers = retval;
 				})
 				.catch(function () {
 					if(!vm.allUsers) {
