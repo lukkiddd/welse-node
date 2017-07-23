@@ -61,6 +61,10 @@
                 <div ng-show="vm.health">
                   <div class="data-name fontFamily-primary-bold c-grey fontSize-s">
                     {{key}}
+                    <span ng-show="key == 'Creatinine'" class="c-grey-l fontSize-xs">(WELSE)</span>
+                    <span ng-show="key == 'AST'" class="c-grey-l fontSize-xs">(WELSE)</span>
+                    <span ng-show="key == 'ALT'" class="c-grey-l fontSize-xs">(WELSE)</span>
+                    <span ng-show="key == 'steps'" class="c-grey-l fontSize-xs">(Fitbit)</span>
                   </div>
                   <div class="data-icon textAlign-center ">
                     <img src="../assets/images/{{val[0].type}}.svg" style="max-height: 65px;" alt="">

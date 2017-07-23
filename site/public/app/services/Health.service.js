@@ -11,7 +11,8 @@
 		var HEALTH_URL = "https://welse-node-v6.azurewebsites.net/api/db/health";
 		var healthService = {
 			getHealth: getHealth,
-			getHealthUser: getHealthUser
+			getHealthUser: getHealthUser,
+			removeHealth: removeHealth
 		};
 		return healthService;
 
@@ -48,6 +49,26 @@
 				.catch(function (data) {
 					defer.reject(data.data);
 				});
+			return defer.promise;
+		}
+
+		function removeHealth(key) {
+			var defer = $q.defer();
+
+			var data = {
+				token: $cookieStore.get('token').replace(/["]+/g,''),
+				key: key
+			}
+
+			$http
+				.post(HEALTH_URL + 'remove', data)
+				.then(function (data) {
+					defer.resolve(data.data);
+				})
+				.catch(function (data) {
+					defer.reject(data);
+				});
+
 			return defer.promise;
 		}
 

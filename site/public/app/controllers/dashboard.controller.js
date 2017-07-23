@@ -5,9 +5,9 @@
 			.module('app')
 			.controller('dashboardCtrl', dashboardCtrl);
 
-	dashboardCtrl.$inject = ['$state', '$timeout', '$interval', 'Users', 'Friend', 'Health'];
+	dashboardCtrl.$inject = ['$state', '$timeout', '$interval', 'Users', 'Friend', 'Health', 'SweetAlert'];
 
-	function dashboardCtrl($state, $timeout, $interval, Users, Friend, Health) {
+	function dashboardCtrl($state, $timeout, $interval, Users, Friend, Health, SweetAlert) {
 		var vm = this;
 
 		vm.devices_modal = {
@@ -37,6 +37,7 @@
 		vm.confirm = confirm;
 		vm.decline = decline;
 		vm.unfollow = unfollow;
+		vm.removeHealth = removeHealth;
 
 		vm.thirdPartyList = [{
 			name: "iHealth"
@@ -50,6 +51,32 @@
 			name: "jawbone"
 		}];
 
+		function removeHealth(key) {
+			SweetAlert.swal({
+				title: "Are you sure?",
+				text: "Your will not be able to recover this data!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",confirmButtonText: "Yes, delete it!",
+				cancelButtonText: "No, cancel!",
+				closeOnConfirm: false,
+				closeOnCancel: false }, 
+			function(isConfirm){ 
+				if (isConfirm) {
+					Health
+					.removeHealth(key)
+					.then(function (data) {
+						console.log(data);
+						SweetAlert.swal("Deleted!", "Your data has been deleted.", "success");
+					})
+					.catch(function (error) {
+						SweetAlert.swal("Error", "Some error has occured", "error");
+					})
+				} else {
+						SweetAlert.swal("Cancelled", "Your data file is safe :)", "error");
+				}
+			});
+		}
 
 		function addDevice() {
 			vm.showAddDevice = true;

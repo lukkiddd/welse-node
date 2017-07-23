@@ -155,5 +155,19 @@ router.delete('/', async (req, res, next) => {
 	}
 })
 
+router.delete('/remove', async (req, res, next) => {
+	const token = req.body.token;
+	const key = req.body.req;
+
+	try {
+		const tokenUser = await tokenManage.verify(token);
+		const healthRemove = await Health.remove({ name: key });
+		res.json(healthRemove);
+	} catch (err) {
+		console.log('Error: ' + err);
+		res.status(400).json(err);
+	}
+});
+
 
 export default router;

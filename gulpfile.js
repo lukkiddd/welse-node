@@ -24,6 +24,7 @@ gulp.task('babel', function () {
 gulp.task('nodemon', function () {
     nodemon({
         script: 'site\\bin\\www',
+        // script: 'site/bin/www',
         ext: 'es6 jade sass js',
         ignore: ['*.map'],
         tasks: ['babel']
