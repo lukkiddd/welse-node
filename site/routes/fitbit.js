@@ -25,66 +25,66 @@ router.get('/callback', (req, res) => {
 					
 			const calRes = await client.get('/activities/calories/date/today/1y.json', result.access_token);
 			const cal = calRes[0]['activities-calories'];
-			res.json(cal);
-			// const calData = _.takeRight(cal, 100);
+			const calData = _.takeRight(cal, 100);
+			// res.json(cal);
 			// 			// .then( async (calRes) => {
-			// 				// const cal = calRes[0]['activities-calories'];
-			// 				// const calData = _.takeRight(cal, 100);
+							// const cal = calRes[0]['activities-calories'];
+							// const calData = _.takeRight(cal, 100);
 
-			// const distanceRes = await client.get('/activities/distance/date/today/1y.json', result.access_token)
+			const distanceRes = await client.get('/activities/distance/date/today/1y.json', result.access_token)
 			// 				// 	.then( async (distanceRes) => {
-			// const distance = distanceRes[0]['activities-distance'];
-			// const disData = _.takeRight(distance, 100);
+			const distance = distanceRes[0]['activities-distance'];
+			const disData = _.takeRight(distance, 100);
 									
-			// _.forEach(stepData, async (val) => {
-			// 	let date = new Date(val.dateTime).getTime() / 1000
-			// 	let step = new Health({
-			// 		chartType: 'column',
-			// 		name: 'steps',
-			// 		timestamp: date,
-			// 		unit: 'step',
-			// 		value: val.value,
-			// 		max: 0,
-			// 		type: 'step',
-			// 		_user: _id
-			// 	});
-			// 	let stepResult = await step.save();
-			// })
+			_.forEach(stepData, async (val) => {
+				let date = new Date(val.dateTime).getTime() / 1000
+				let step = new Health({
+					chartType: 'column',
+					name: 'steps',
+					timestamp: date,
+					unit: 'step',
+					value: val.value,
+					max: 0,
+					type: 'step',
+					_user: _id
+				});
+				let stepResult = await step.save();
+			})
 
-			// _.forEach(calData, async (val) => {
-			// 	let date = new Date(val.dateTime).getTime() / 1000
-			// 	let cal = new Health({
-			// 		chartType: 'column',
-			// 		name: 'calories',
-			// 		timestamp: date,
-			// 		unit: 'calories',
-			// 		value: val.value,
-			// 		max: 0,
-			// 		type: 'calories',
-			// 		_user: _id
-			// 	});
-			// 	let calResult = await cal.save();
-			// })
+			_.forEach(calData, async (val) => {
+				let date = new Date(val.dateTime).getTime() / 1000
+				let cal = new Health({
+					chartType: 'column',
+					name: 'calories',
+					timestamp: date,
+					unit: 'calories',
+					value: val.value,
+					max: 0,
+					type: 'calories',
+					_user: _id
+				});
+				let calResult = await cal.save();
+			})
 
-			// _.forEach(disData, async (val) => {
-			// 	let date = new Date(val.dateTime).getTime() / 1000
-			// 	let distance = new Health({
-			// 		chartType: 'column',
-			// 		name: 'distance',
-			// 		timestamp: date,
-			// 		unit: 'km',
-			// 		value: val.value,
-			// 		max: 0,
-			// 		type: 'distance',
-			// 		_user: _id
-			// 	});
-			// 	let disResult = await distance.save();
-			// })
-			// if (disResult) {
-			// 	res.redirect('https://welse-node-v6.azurewebsites.net');
-			// } else {
-			// 	res.json({'message': 'error'});
-			// }
+			_.forEach(disData, async (val) => {
+				let date = new Date(val.dateTime).getTime() / 1000
+				let distance = new Health({
+					chartType: 'column',
+					name: 'distance',
+					timestamp: date,
+					unit: 'km',
+					value: val.value,
+					max: 0,
+					type: 'distance',
+					_user: _id
+				});
+				let disResult = await distance.save();
+			})
+			if (disResult) {
+				res.redirect('https://welse-node-v6.azurewebsites.net');
+			} else {
+				res.json({'message': 'error'});
+			}
 
 			// 					})
 			// 			})
