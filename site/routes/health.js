@@ -157,7 +157,7 @@ router.delete('/', async (req, res, next) => {
 
 router.delete('/remove', async (req, res, next) => {
 	const token = req.body.token;
-	const key = req.body.req;
+	const key = req.body.key;
 
 	try {
 		const tokenUser = await tokenManage.verify(token);
