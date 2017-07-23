@@ -8,7 +8,7 @@
 	GoalService.$inject = ['$http', '$q', '$cookies'];
 
 	function GoalService($http, $q, $cookies) {
-		var GOAL_URL = "https://welse-node-v6.azurewebsites.net/api/db/goals";
+		var GOAL_URL = "https://welse-us.azurewebsites.net/api/db/goals";
 		var goalService = {
 			setGoal: setGoal,
 			setGoalUser: setGoalUser,

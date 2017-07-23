@@ -11,12 +11,12 @@ const client = new FitbitApiClient(config.CLIENT_ID, config.CLIENT_SECRET)
 
 router.get('/authorize',  (req, res) => {
 	const id = req.query.id;
-	res.redirect(client.getAuthorizeUrl('activity sleep', 'https://welse-node-v6.azurewebsites.net/api/fitbit/callback', 'none', id))
+	res.redirect(client.getAuthorizeUrl('activity sleep', 'https://welse-us.azurewebsites.net/api/fitbit/callback', 'none', id))
 });
 
 router.get('/callback', (req, res) => {
 	const _id = req.query.state;
-	client.getAccessToken(req.query.code, 'https://welse-node-v6.azurewebsites.net/api/fitbit/callback')
+	client.getAccessToken(req.query.code, 'https://welse-us.azurewebsites.net/api/fitbit/callback')
 		.then( async (result) => {
 			const results = await client.get('/activities/steps/date/today/1y.json', result.access_token)
 
@@ -75,7 +75,7 @@ router.get('/callback', (req, res) => {
 				});
 				let disResult = await distance.save();
 			})
-			res.redirect('https://welse-node-v6.azurewebsites.net');
+			res.redirect('https://welse-us.azurewebsites.net');
 
 		})
 		.catch( (error) => {

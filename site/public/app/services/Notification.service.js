@@ -8,7 +8,7 @@
 	NotificationService.$inject = ['$cookieStore', '$q', '$http'];
 	
 	function NotificationService($cookieStore, $q, $http) {
-		var NOTIFICATION_URL = "https://welse-node-v6.azurewebsites.net/api/db/notification";
+		var NOTIFICATION_URL = "https://welse-us.azurewebsites.net/api/db/notification";
 
 		var notificationService = {
 			getNotification: getNotification,
