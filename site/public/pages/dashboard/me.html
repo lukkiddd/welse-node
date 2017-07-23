@@ -137,7 +137,7 @@
           </div>
         </div>
         <div class="col-xs-12 col-sm-7 col-md-9 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
-          <div class="row margin-0 borderBottomWidth-1 borderStyle-solid borderColor-grey">
+          <div class="row margin-0 borderBottomWidth-1 borderStyle-solid borderColor-grey-l">
             <div ng-show="key == 'steps'" ng-repeat="(key, val) in vm.health" class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0" >
               <div ui-sref="dashboard.data({key: key})" ng-class="{'box-loading': !vm.health}" class="animated fadeIn padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
                 <i ng-hide="vm.health" class="ion-load-c load"></i>
@@ -170,8 +170,9 @@
                 </div>
               </div>
             </div>
+
           </div>
-          <div class="row margin-0">
+          <div class="row marginLeft-0 marginRight-0 marginTop-xm">
             <div ng-show="key == 'Creatinine' || key == 'AST' || key == 'ALT' || key == 'eGFR'" ng-repeat="(key, val) in vm.health" class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0" >
               <div ui-sref="dashboard.data({key: key})" ng-class="{'box-loading': !vm.health}" class="animated fadeIn padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
                 <i ng-hide="vm.health" class="ion-load-c load"></i>

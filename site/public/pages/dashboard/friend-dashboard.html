@@ -54,17 +54,49 @@
           </div>
         </div>
         <div class="col-xs-12 col-sm-7 col-md-9 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
-          <div class="row margin-0">
-            <div ng-repeat="(key, val) in vm.health" class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0" >
-              <div ui-sref="dashboard.friendData({id: vm.friend._id, key: key})" ng-class="{'box-loading': !vm.health}" class="animated fadeIn padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
+          <div class="row margin-0 borderBottomWidth-1 borderStyle-solid borderColor-grey-l">
+            <div ng-show="key == 'steps'" ng-repeat="(key, val) in vm.health" class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0" >
+              <div ui-sref="dashboard.data({key: key})" ng-class="{'box-loading': !vm.health}" class="animated fadeIn padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
                 <i ng-hide="vm.health" class="ion-load-c load"></i>
                 <div ng-show="vm.health">
                   <div class="data-name fontFamily-primary-bold c-grey fontSize-s">
                     {{key}}
-                    <span ng-show="key == 'Creatinine'" class="c-grey-l fontSize-xs">(WELSE)</span>
-                    <span ng-show="key == 'AST'" class="c-grey-l fontSize-xs">(WELSE)</span>
-                    <span ng-show="key == 'ALT'" class="c-grey-l fontSize-xs">(WELSE)</span>
-                    <span ng-show="key == 'steps'" class="c-grey-l fontSize-xs">(Fitbit)</span>
+                     <span ng-show="key == 'Creatinine'" class="c-grey-l fontSize-xs">(WELSE)</span>
+                     <span ng-show="key == 'AST'" class="c-grey-l fontSize-xs">(WELSE)</span>
+                     <span ng-show="key == 'ALT'" class="c-grey-l fontSize-xs">(WELSE)</span>
+                     <span ng-show="key == 'steps'" class="c-grey-l fontSize-xs">(Fitbit)</span>
+                  </div>
+                  <div class="data-icon textAlign-center ">
+                    <img src="../assets/images/{{val[0].type}}.svg" style="max-height: 65px;" alt="">
+                  </div>
+                  <div ng-show="!val[0].isDanger" class="data-value textAlign-center marginTop-xm">
+                    <span class="fontFamily-primary fontWeight-3 fontSize-xl marginRight-s c-black">{{val[0].value}}</span> <span class="c-grey fontWeight-3">{{val[0].unit}}</span>
+                  </div>
+                  <div ng-show="val[0].isDanger" class="data-value textAlign-center marginTop-xm">
+                    <span class="fontFamily-primary fontWeight-3 fontSize-xl marginRight-s c-danger">{{val[0].value}}</span> <span class="c-danger fontWeight-3">{{val[0].unit}}</span>
+                  </div>
+                  <div ng-show="!val[0].isDanger" class="data-label textAlign-center fontSize-xxs fontFamily-primary-bold c-success textTransform-uppercase">
+                    normal
+                  </div>
+                  <div ng-show="val[0].isDanger" class="c-danger data-label textAlign-center fontSize-xxs fontFamily-primary-bold c-success textTransform-uppercase">
+                    warning
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row marginLeft-0 marginRight-0 marginTop-xm">
+            <div ng-show="key == 'Creatinine' || key == 'AST' || key == 'ALT' || key == 'eGFR'" ng-repeat="(key, val) in vm.health" class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0" >
+              <div ui-sref="dashboard.data({key: key})" ng-class="{'box-loading': !vm.health}" class="animated fadeIn padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
+                <i ng-hide="vm.health" class="ion-load-c load"></i>
+                <div ng-show="vm.health">
+                  <div class="data-name fontFamily-primary-bold c-grey fontSize-s">
+                    {{key}}
+                     <span ng-show="key == 'Creatinine'" class="c-grey-l fontSize-xs">(WELSE)</span>
+                     <span ng-show="key == 'AST'" class="c-grey-l fontSize-xs">(WELSE)</span>
+                     <span ng-show="key == 'ALT'" class="c-grey-l fontSize-xs">(WELSE)</span>
+                     <span ng-show="key == 'steps'" class="c-grey-l fontSize-xs">(Fitbit)</span>
                   </div>
                   <div class="data-icon textAlign-center ">
                     <img src="../assets/images/{{val[0].type}}.svg" style="max-height: 65px;" alt="">
