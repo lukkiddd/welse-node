@@ -29,7 +29,7 @@
 					$state.go('dashboard.me');
 				})
 				.catch(function () {
-					login(userData);
+					swal("Sorry", "Incorrect username or password!", "error");
 				});
 		}
 

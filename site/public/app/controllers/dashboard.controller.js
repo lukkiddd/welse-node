@@ -111,9 +111,11 @@
 		}
 
 		function getAllUsers() {
+			console.log('get all users');
 			Users
 				.getUsers()
 				.then(function (data) {
+					console.log(data);
 					var following = _.map(vm.me.following, function (val) {
 						return val._id;
 					});
@@ -141,7 +143,7 @@
 			Health
 				.getHealth()
 				.then(function (data) {
-					console.log(data);
+					// console.log(data);
 					vm.health = data;
 				})
 				.catch(function (error) {
