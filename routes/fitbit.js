@@ -52,7 +52,7 @@ router.get('/callback', (req, res) => {
 
 			_.forEach(calData, async (val) => {
 				let date = new Date(val.dateTime).getTime() / 1000
-				let step = new Health({
+				let cal = new Health({
 					chartType: 'column',
 					name: 'calories',
 					timestamp: date,
@@ -62,12 +62,12 @@ router.get('/callback', (req, res) => {
 					type: 'calories',
 					_user: _id
 				});
-				let calResult = await step.save();
+				let calResult = await cal.save();
 			})
 
 			_.forEach(disData, async (val) => {
 				let date = new Date(val.dateTime).getTime() / 1000
-				let step = new Health({
+				let distance = new Health({
 					chartType: 'column',
 					name: 'distance',
 					timestamp: date,
@@ -77,7 +77,7 @@ router.get('/callback', (req, res) => {
 					type: 'distance',
 					_user: _id
 				});
-				let disResult = await step.save();
+				let disResult = await distance.save();
 			})
 			if (disResult) {
 				res.redirect('https://welse-node-v6.azurewebsites.net');
