@@ -63,9 +63,11 @@
 			$http
 				.post(HEALTH_URL + '/remove', data)
 				.then(function (data) {
+					console.log(data);
 					defer.resolve(data.data);
 				})
-				.catch(function (data) {					
+				.catch(function (data) {	
+					console.log(data);				
 					defer.reject(data);
 				});
 
