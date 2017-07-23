@@ -111,25 +111,24 @@
 		}
 
 		function getAllUsers() {
-			console.log('get all users');
 			Users
 				.getUsers()
 				.then(function (data) {
-					console.log(data);
 					var following = _.map(vm.me.following, function (val) {
 						return val._id;
 					});
 					var pending = _.map(vm.me.pending, function (val) {
 						return val._id;
-					})
+					});
+					console.log(vm.me);
+					console.log(pending);
+
 					var users = _.filter(data, function(val) {
 						return following.indexOf(val._id) < 0;
 					});
-					retval = _.filter(users, function(val) {
+					var retval = _.filter(users, function(val) {
 						return pending.indexOf(val._id) < 0;
 					})
-					console.log(pending);
-					console.log(retval);
 					vm.allUsers = retval;
 				})
 				.catch(function () {
