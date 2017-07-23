@@ -108,7 +108,7 @@ router.post('/', async (req, res, next) => {
 	const token = req.body.token;
 	try {
 		const tokenUser = await tokenManage.verify(token);
-		const health = await Health.find({ _user: tokenUser._id }).sort({ createdAt: -1});
+		const health = await Health.find({ _user: tokenUser._id }).sort({ timestamp: -1});
 		let healthRetval = {};
 		_.forEach(health, (val) => {
 			if (!healthRetval[val.name]) {
