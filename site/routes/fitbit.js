@@ -19,20 +19,15 @@ router.get('/callback', (req, res) => {
 	client.getAccessToken(req.query.code, 'https://welse-node-v6.azurewebsites.net/api/fitbit/callback')
 		.then( async (result) => {
 			const results = await client.get('/activities/steps/date/today/1y.json', result.access_token)
-				// .then( async (results) => {
+
 			const steps = results[0]['activities-steps'];
 			const stepData = _.takeRight(steps, 100);
 					
 			const calRes = await client.get('/activities/calories/date/today/1y.json', result.access_token);
 			const cal = calRes[0]['activities-calories'];
 			const calData = _.takeRight(cal, 100);
-			// res.json(cal);
-			// 			// .then( async (calRes) => {
-							// const cal = calRes[0]['activities-calories'];
-							// const calData = _.takeRight(cal, 100);
 
 			const distanceRes = await client.get('/activities/distance/date/today/1y.json', result.access_token)
-			// 				// 	.then( async (distanceRes) => {
 			const distance = distanceRes[0]['activities-distance'];
 			const disData = _.takeRight(distance, 100);
 									
@@ -80,17 +75,8 @@ router.get('/callback', (req, res) => {
 				});
 				let disResult = await distance.save();
 			})
-			if (disResult) {
-				res.redirect('https://welse-node-v6.azurewebsites.net');
-			} else {
-				res.json({'message': 'error'});
-			}
+			res.redirect('https://welse-node-v6.azurewebsites.net');
 
-			// 					})
-			// 			})
-
-
-			// });
 		})
 		.catch( (error) => {
 			console.log(error);

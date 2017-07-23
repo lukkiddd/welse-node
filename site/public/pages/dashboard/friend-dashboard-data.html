@@ -14,10 +14,10 @@
                         </div>
                         <div class="marginBottom-xl">
                             <div ng-show="!selectedData[0].isDanger" class="data-value display-inline-block">
-                                <span class="fontFamily-primary fontWeight-3 fontSize-xxl marginRight-s c-black">{{selectedData[0].value}}</span> <span class="c-grey fontWeight-3">{{selectedData[0].unit}}</span>
+                                <span class="fontFamily-primary fontWeight-3 fontSize-xxl marginRight-s c-black">{{selectedData[0].value  | number: 2}}</span> <span class="c-grey fontWeight-3">{{selectedData[0].unit}}</span>
                             </div>
                             <div ng-show="selectedData[0].isDanger" class="data-value display-inline-block">
-                                <span class="fontFamily-primary fontWeight-3 fontSize-xxl marginRight-s c-danger">{{selectedData[0].value}}</span> <span class="c-danger fontWeight-3">{{selectedData[0].unit}}</span>
+                                <span class="fontFamily-primary fontWeight-3 fontSize-xxl marginRight-s c-danger">{{selectedData[0].value  | number: 2}}</span> <span class="c-danger fontWeight-3">{{selectedData[0].unit}}</span>
                             </div>
                         </div>
                         <highchart style="height: 260px" id="chartData" config="chartData"></highchart>
@@ -35,7 +35,7 @@
                         </div>
                         <div ng-repeat="data in selectedData" class="row margin-0 friend-item paddingTopBottom-xm paddingLeftRight-xm fontFamily-primary">
                             <div class="col-xs-3 c-grey-d padding-0 fontFamily-primary-bold">
-                                {{ data.value }} <span ng-show="data.unit" class="fontFamily-primary c-grey-l textTransform-uppercase">/ {{data.unit}}</span>
+                                {{ data.value | number: 2 }} <span ng-show="data.unit" class="fontFamily-primary c-grey-l textTransform-uppercase">/ {{data.unit}}</span>
                             </div>
                             <div class="col-xs-3 c-grey-d textTransform-capitilze">
                                 {{ data.name }}
