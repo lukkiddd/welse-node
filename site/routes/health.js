@@ -29,7 +29,7 @@ router.post('/push', async (req, res, next) => {
 			const result = await health.save();
 			if (data.value > data.max) {
 				let notification = new Notification({
-						message: "is out of bound",
+						message: "does not meet goal",
 						name: data.name,
 						_patient: user._id,
 						_user: user._id,
@@ -38,7 +38,7 @@ router.post('/push', async (req, res, next) => {
 				let resultNotification = await notification.save();
 				_.forEach(user.followers, async (follower) => {
 					let notification = new Notification({
-						message: "is out of bound",
+						message: "does not meet goal",
 						name: data.name,
 						_patient: user._id,
 						_user: follower,

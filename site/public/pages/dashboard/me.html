@@ -1,4 +1,14 @@
-
+<style>
+  .delete { 
+    display: none;
+  }
+  .delete:hover {
+    color: #333;
+  }
+  .health-card:hover .delete {
+    display: flex;
+  }
+</style>
 <div class="animated fadeIn">
   <div class="padding-xm">
       <div ng-show="vm.me" class="row margin-0 marginBottom-xm">
@@ -138,8 +148,8 @@
         </div>
         <div class="col-xs-12 col-sm-7 col-md-9 paddingLeft-0 marginBottom-xm xs-paddingRight-0">
           <div ng-show="vm.health" class="row margin-0 borderBottomWidth-1 borderStyle-solid borderColor-grey-l">
-            <div ng-show="key == 'steps' || key == 'distance' || key == 'calories'" ng-repeat="(key, val) in vm.health" class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0 position-relative" >
-              <div ng-click="vm.removeHealth(key)" class="delete" style="z-index: 100; position: absolute; top: -5px; right: -5px; background-color: #ffffff; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0px 0px 4px #ddd;">
+            <div ng-show="key == 'steps' || key == 'distance' || key == 'calories'" ng-repeat="(key, val) in vm.health" class="health-card col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0 position-relative" >
+              <div ng-click="vm.removeHealth(key)" class="delete" style="z-index: 100; position: absolute; top: -5px; right: 5px; color: #d0d0d0; background-color: #ffffff; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0px 0px 4px #ddd;">
                 <i class="ion-trash-b"></i>
               </div>
               <div ui-sref="dashboard.data({key: key})" ng-class="{'box-loading': !vm.health}" class="animated fadeIn padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
@@ -168,11 +178,10 @@
                 </div>
               </div>
             </div>
-
           </div>
           <div ng-class="{'marginTop-xm': vm.health}" class="row marginLeft-0 marginRight-0">
-            <div ng-show="key == 'Creatinine' || key == 'AST' || key == 'ALT' || key == 'eGFR'" ng-repeat="(key, val) in vm.health" class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0 position-relative" >
-              <div ng-click="vm.removeHealth(key)" class="delete" style="z-index: 100; position: absolute; top: -5px; right: 5px; background-color: #ffffff; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0px 0px 4px #ddd;">
+            <div ng-show="key == 'Creatinine' || key == 'AST' || key == 'ALT' || key == 'eGFR'" ng-repeat="(key, val) in vm.health" class="health-card col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0 position-relative" >
+              <div ng-click="vm.removeHealth(key)" class="delete" style="z-index: 100; position: absolute; top: -5px; right: 5px; color: #d0d0d0; background-color: #ffffff; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0px 0px 4px #ddd;">
                 <i class="ion-trash-b"></i>
               </div>
               <div ui-sref="dashboard.data({key: key})" ng-class="{'box-loading': !vm.health}" class="animated fadeIn padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
