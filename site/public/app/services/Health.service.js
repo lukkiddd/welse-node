@@ -62,7 +62,7 @@
 
 			console.log(data);
 			$http
-				.delete(HEALTH_URL + '/remove', data)
+				.post(HEALTH_URL + '/remove', data)
 				.then(function (data) {
 					console.log(data);
 					defer.resolve(data.data);

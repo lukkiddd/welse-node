@@ -155,7 +155,7 @@ router.delete('/', async (req, res, next) => {
 	}
 })
 
-router.delete('/remove', async (req, res, next) => {
+router.post('/remove', async (req, res, next) => {
 	const token = req.body.token;
 	const key = req.body.key;
 
