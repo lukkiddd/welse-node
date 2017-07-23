@@ -5,9 +5,9 @@
 			.module('app')
 			.controller('dashboardCtrl', dashboardCtrl);
 
-	dashboardCtrl.$inject = ['$state', '$timeout', '$interval', 'Users', 'Friend', 'Health', 'SweetAlert'];
+	dashboardCtrl.$inject = ['$state', '$timeout', '$interval', 'Users', 'Friend', 'Health'];
 
-	function dashboardCtrl($state, $timeout, $interval, Users, Friend, Health, SweetAlert) {
+	function dashboardCtrl($state, $timeout, $interval, Users, Friend, Health) {
 		var vm = this;
 
 		vm.devices_modal = {
@@ -52,7 +52,7 @@
 		}];
 
 		function removeHealth(key) {
-			SweetAlert.swal({
+			swal({
 				title: "Are you sure?",
 				text: "Your will not be able to recover this data!",
 				type: "warning",
@@ -67,13 +67,13 @@
 					.removeHealth(key)
 					.then(function (data) {
 						console.log(data);
-						SweetAlert.swal("Deleted!", "Your data has been deleted.", "success");
+						swal("Deleted!", "Your data has been deleted.", "success");
 					})
 					.catch(function (error) {
-						SweetAlert.swal("Error", "Some error has occured", "error");
+						swal("Error", "Some error has occured", "error");
 					})
 				} else {
-						SweetAlert.swal("Cancelled", "Your data file is safe :)", "error");
+						swal("Cancelled", "Your data file is safe :)", "error");
 				}
 			});
 		}
