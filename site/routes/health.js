@@ -161,7 +161,7 @@ router.delete('/remove', async (req, res, next) => {
 
 	try {
 		const tokenUser = await tokenManage.verify(token);
-		const healthRemove = await Health.remove({ name: key });
+		const healthRemove = await Health.remove({ _user: tokenUser._id, name: key });
 		res.json(healthRemove);
 	} catch (err) {
 		console.log('Error: ' + err);

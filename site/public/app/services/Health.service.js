@@ -61,7 +61,7 @@
 			}
 
 			$http
-				.post(HEALTH_URL + 'remove', data)
+				.post(HEALTH_URL + '/remove', data)
 				.then(function (data) {
 					defer.resolve(data.data);
 				})
