@@ -170,7 +170,7 @@
             </div>
 
           </div>
-          <div class="row marginLeft-0 marginRight-0 marginTop-xm">
+          <div ng-class="{'marginTop-xm': vm.health}" class="row marginLeft-0 marginRight-0">
             <div ng-show="key == 'Creatinine' || key == 'AST' || key == 'ALT' || key == 'eGFR'" ng-repeat="(key, val) in vm.health" class="col-xs-12 col-sm-6 col-md-4 marginBottom-xm paddingLeft-0 xs-paddingRight-0" >
               <div ui-sref="dashboard.data({key: key})" ng-class="{'box-loading': !vm.health}" class="animated fadeIn padding-xm boxShadow-card bg-white borderWidth-1 borderColor-foreground position-relative cursor-pointer" style="height: 220px">
                 <i ng-hide="vm.health" class="ion-load-c load"></i>
