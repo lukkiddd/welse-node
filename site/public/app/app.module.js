@@ -7,8 +7,8 @@
 				'ngWebSocket',
 				'ngCookies',
 				'firebase',
-				'highcharts-ng',
-				'oitozero.ngSweetAlert'
+				'highcharts-ng'
+				// 'oitozero.ngSweetAlert'
 			]);
 
 })();
