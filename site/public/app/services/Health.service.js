@@ -8,7 +8,7 @@
 	HealthService.$inject = ['$http', '$q', '$cookieStore'];
 
 	function HealthService($http, $q, $cookieStore) {
-		var HEALTH_URL = "https://welse-us.azurewebsites.net/api/db/health";
+		var HEALTH_URL = "https://welse-us-azure.azurewebsites.net/api/db/health";
 		var healthService = {
 			getHealth: getHealth,
 			getHealthUser: getHealthUser,

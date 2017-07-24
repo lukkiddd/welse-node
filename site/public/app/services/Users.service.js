@@ -8,7 +8,7 @@
 	UserService.$inject = ['$http', '$q', '$cookieStore'];
 
 	function UserService($http, $q, $cookieStore) {
-		var BASE_URL = "https://welse-us.azurewebsites.net/api/db/users";
+		var BASE_URL = "https://welse-us-azure.azurewebsites.net/api/db/users";
 		var userService = {
 			register: register,
 			login: login, //pass
