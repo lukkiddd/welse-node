@@ -24,15 +24,15 @@ router.post('/push', async (req, res, next) => {
 				max: data.max,
 				type: data.type || 'blood',
 				isDanger: (data.value > data.max) ? true : false,
-				_user: user._id
+				user_id: user._id
 			});
 			const result = await health.save();
 			if (data.value > data.max) {
 				let notification = new Notification({
 						message: "does not meet goal",
 						name: data.name,
-						_patient: user._id,
-						_user: user._id,
+						patient_id: user._id,
+						user_id: user._id,
 						read: false
 					});
 				let resultNotification = await notification.save();
@@ -40,8 +40,8 @@ router.post('/push', async (req, res, next) => {
 					let notification = new Notification({
 						message: "does not meet goal",
 						name: data.name,
-						_patient: user._id,
-						_user: follower,
+						patient_id: user._id,
+						user_id: follower,
 						read: false
 					});
 					let resultNotification = await notification.save();
@@ -55,7 +55,7 @@ router.post('/push', async (req, res, next) => {
 					timestamp: new Date().getTime() / 1000,
 					unit: 'ml/min/1.73m2',
 					type: 'blood',
-					_user: user._id
+					user_id: user._id
 				}
 				if (user.gender == 'Male' || user.gender == 'male') {
 					// male
@@ -85,7 +85,7 @@ router.post('/push', async (req, res, next) => {
 					value: dataGFR.value,
 					max: dataGFR.max,
 					isDanger: dataGFR.isDanger,
-					_user: dataGFR._user
+					user_id: dataGFR.user_id
 				});
 				var resultGFR = await healthGFR.save();
 			}
@@ -108,7 +108,7 @@ router.post('/', async (req, res, next) => {
 	const token = req.body.token;
 	try {
 		const tokenUser = await tokenManage.verify(token);
-		const health = await Health.find({ _user: tokenUser._id }).sort({ timestamp: -1});
+		const health = await Health.find({ user_id: tokenUser._id }).sort({ timestamp: -1});
 		let healthRetval = {};
 		_.forEach(health, (val) => {
 			if (!healthRetval[val.name]) {
@@ -126,7 +126,7 @@ router.post('/', async (req, res, next) => {
 router.post('/user', async (req, res, next) => {
 	const _id = req.body._id;
 	try {
-		const health = await Health.find({ _user: _id }).sort({ createdAt: -1 });
+		const health = await Health.find({ user_id: _id }).sort({ createdAt: -1 });
 		let healthRetval = {};
 		_.forEach(health, (val) => {
 			if (!healthRetval[val.name]) {
@@ -147,7 +147,7 @@ router.delete('/', async (req, res, next) => {
 	const token = req.body.token;
 	try {
 		const tokenUser = await tokenManage.verify(token);
-		const health = await Health.remove({ _user: tokenUser._id });
+		const health = await Health.remove({ user_id: tokenUser._id });
 		res.json(health);
 	} catch (err) {
 		console.log('Error: ' + err);
@@ -161,7 +161,7 @@ router.post('/remove', async (req, res, next) => {
 
 	try {
 		const tokenUser = await tokenManage.verify(token);
-		const healthRemove = await Health.remove({ _user: tokenUser._id, name: key });
+		const healthRemove = await Health.remove({ user_id: tokenUser._id, name: key });
 		res.json(healthRemove);
 	} catch (err) {
 		console.log('Error: ' + err);
