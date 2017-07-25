@@ -60,18 +60,18 @@ router.post('/push', async (req, res, next) => {
 				if (user.gender == 'Male' || user.gender == 'male') {
 					// male
 					if (data.value > 0.9) {
-						dataGFR.value = (Math.pow(144 * (data.value / 0.7), -1.209)) * (Math.pow(0.993, parseInt(user.age)))
+						dataGFR.value = 141 * (Math.pow((data.value / 0.9), -1.209)) * (Math.pow(0.993, parseInt(user.age)))
 					} else {
-						dataGFR.value = (Math.pow(144 * (data.value / 0.7), -0.411)) * (Math.pow(0.993, parseInt(user.age)))
+						dataGFR.value = 141 * (Math.pow((data.value / 0.9), -0.411)) * (Math.pow(0.993, parseInt(user.age)))
 					}
 					dataGFR.max = 1.2
 					dataGFR.isDanger = (data.value > data.max) ? true : false;
 				} else if(user.gender == 'Female' || user.gender == 'female') {
 					// famale
 					if (data.value > 0.7) {
-						dataGFR.value = (Math.pow(144 * (data.value / 0.7), -1.209)) * (Math.pow(0.993, parseInt(user.age)))
+						dataGFR.value = 144 * (Math.pow((data.value / 0.7), -1.209)) * (Math.pow(0.993, parseInt(user.age)))
 					} else {
-						dataGFR.value = (Math.pow(144 * (data.value / 0.7), -0.329)) * (Math.pow(0.993, parseInt(user.age)))
+						dataGFR.value = 144 * (Math.pow((data.value / 0.7), -0.329)) * (Math.pow(0.993, parseInt(user.age)))
 					}
 					dataGFR.max = 1.1;
 					dataGFR.isDanger = (data.value > data.max) ? true : false;
