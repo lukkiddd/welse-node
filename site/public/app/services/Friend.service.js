@@ -8,7 +8,7 @@
 	FriendService.$inject = ['$http', '$q', '$cookies'];
 
 	function FriendService($http, $q, $cookies) {
-		var BASE_URL = "https://welse-us.azurewebsites.net/api/db/friends";
+		var BASE_URL = "https://welse-taiwan.azurewebsites.net/api/db/friends";
 		var friendService = {
 			follow: follow,
 			unfollow: unfollow,
